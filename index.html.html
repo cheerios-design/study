@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İletişim Etiği - Çalışma Sunumu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0056b3; /* Akademik mavi */
+            --secondary-color: #e9ecef; /* Açık gri */
+            --text-color: #212529; /* Koyu metin */
+            --bg-color: #f8f9fa; /* Arka plan */
+            --card-bg: #ffffff;
+            --border-color: #dee2e6;
+            --highlight-bg: #fffbe6; /* Vurgu arka planı */
+            --highlight-border: #ffc107; /* Vurgu kenarlığı */
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+        header {
+            padding: 30px 40px;
+            background-color: var(--primary-color);
+            color: #ffffff;
+            border-bottom: 5px solid #00418a;
+        }
+        header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 32px;
+            margin-bottom: 5px;
+        }
+        header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        .tab-container {
+            display: flex;
+            flex-wrap: wrap;
+            background-color: #f1f3f5;
+            padding: 10px 30px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .tab-button {
+            font-family: 'Poppins', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            padding: 12px 20px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            color: #495057;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+        .tab-button:hover {
+            background-color: var(--secondary-color);
+            border-radius: 8px;
+        }
+        .tab-button.active {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--primary-color);
+        }
+        .content-container {
+            padding: 30px 40px;
+        }
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 26px;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+        }
+        h2 i {
+            margin-right: 12px;
+        }
+        h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 20px;
+            color: #00418a;
+            margin-bottom: 15px;
+            margin-top: 20px;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        .grid-container-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .content-box {
+            background-color: var(--bg-color);
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        .key-message {
+            background: var(--highlight-bg);
+            border-left: 5px solid var(--highlight-border);
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 0 8px 8px 0;
+            font-size: 17px;
+            font-weight: 700;
+            color: #533f00;
+        }
+        /* Definisyon Listesi Stili */
+        dl {
+            margin-top: 15px;
+        }
+        dt {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 17px;
+            color: var(--text-color);
+            margin-top: 15px;
+        }
+        dd {
+            margin-left: 20px;
+            padding-left: 15px;
+            border-left: 3px solid var(--secondary-color);
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+        /* Akordeon Stili */
+        .accordion-item {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+        .accordion-header {
+            width: 100%;
+            background-color: var(--bg-color);
+            border: none;
+            text-align: left;
+            padding: 18px 25px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary-color);
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .accordion-header:hover {
+            background-color: #e2e6ea;
+        }
+        .accordion-header i {
+            float: right;
+            transition: transform 0.3s ease;
+        }
+        .accordion-item.active .accordion-header i {
+            transform: rotate(180deg);
+        }
+        .accordion-content {
+            padding: 0 25px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+        }
+        .accordion-content p {
+            margin: 15px 0;
+        }
+        .accordion-content ul {
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+        /* Kart Stili */
+        .content-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+        }
+        .content-card h3 {
+            margin-top: 0;
+            font-size: 19px;
+            color: var(--primary-color);
+        }
+        .content-card ul {
+            padding-left: 20px;
+        }
+        /* İlke Izgarası */
+        .principles-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 15px;
+        }
+        .principle-chip {
+            background-color: #e0eafc;
+            color: #00418a;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 15px;
+            font-weight: 700;
+        }
+        /* Mobil Uyum */
+        @media (max-width: 900px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+            .grid-container-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 600px) {
+            header {
+                padding: 20px;
+                text-align: center;
+            }
+            header h1 {
+                font-size: 26px;
+            }
+            header p {
+                font-size: 16px;
+            }
+            .tab-container {
+                padding: 10px;
+                justify-content: center;
+            }
+            .tab-button {
+                font-size: 13px;
+                padding: 10px 12px;
+            }
+            .content-container {
+                padding: 20px;
+            }
+            h2 {
+                font-size: 22px;
+            }
+            h3 {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>İletişim Etiği ve Ahlakı</h1>
+            <p>Hasan Tutar'ın çalışması üzerine kavramsal özet ve çalışma sunumu</p>
+        </header>
+
+        <div class="tab-container">
+            <button class="tab-button active" data-tab="bolum1">Bölüm 1: Giriş</button>
+            <button class="tab-button" data-tab="bolum2">Bölüm 2: Teoriler</button>
+            <button class="tab-button" data-tab="bolum3">Bölüm 3: Kişilerarası</button>
+            <button class="tab-button" data-tab="bolum4">Bölüm 4: İlkeler</button>
+            <button class="tab-button" data-tab="bolum5">Bölüm 5: Toplumsal</button>
+            <button class="tab-button" data-tab="bolum6">Bölüm 6: Medya Etiği</button>
+        </div>
+
+        <div class="content-container">
+
+            <!-- BÖLÜM 1: GİRİŞ -->
+            <div id="bolum1" class="tab-content active">
+                <h2><i class="fas fa-comments"></i>Bölüm 1: İletişim, Ahlak ve Etik Kavramlarına Giriş</h2>
+                <div class="grid-container">
+                    <div class="content-box">
+                        <h3>1.1. İletişim Kavramının Çok Boyutluluğu</h3>
+                        <p>İletişim sadece mesaj iletimi değil, şu boyutlardan oluşan karmaşık bir süreçtir:</p>
+                        <ul>
+                            <li>Toplumsal</li>
+                            <li>Psikolojik</li>
+                            <li>Kültürel</li>
+                            <li>Ahlaki (Etik)</li>
+                        </ul>
+                        <p>Anlamın üretiminde niyet, bağlam, güç ilişkileri, kültür ve değerler kritik rol oynar.</p>
+                        <div class="key-message" style="margin-top: 15px; padding: 15px;">
+                            Her iletişim, insan ilişkilerini şekillendirir ve bu nedenle <strong>sorumluluk</strong> içerir.
+                        </div>
+                    </div>
+                    <div class="content-box">
+                        <h3>1.2. Etik ve Ahlakın Ayrımı</h3>
+                        <p>Kitap bu ayrımı özellikle vurgular:</p>
+                        <dl>
+                            <dt>Ahlak</dt>
+                            <dd>Toplumun yazısız kurallarıdır.</dd>
+                            <dt>Etik</dt>
+                            <dd>Doğru–yanlış üzerine rasyonel, ilkeli düşünmedir.</dd>
+                            <dt>Norm</dt>
+                            <dd>Toplumun beklediği davranıştır.</dd>
+                            <dt>Değer</dt>
+                            <dd>Bireyin veya toplumun önem atfettiği ilkedir.</dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BÖLÜM 2: TEORİLER -->
+            <div id="bolum2" class="tab-content">
+                <h2><i class="fas fa-book-open-reader"></i>Bölüm 2: Etik Teoriler ve İletişim Etiğine Katkıları</h2>
+                <p>Bu bölümde, iletişimde etik dışı davranışların hangi teorik bakış açılarıyla değerlendirilebileceği açıklanır.</p>
+                
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <button class="accordion-header">
+                            2.1. Deontolojik Etik (Görev Etiği – Kant)
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="accordion-content">
+                            <ul>
+                                <li>Davranışın <strong>sonuçlarına değil</strong>, kurallara uygunluğuna bakar.</li>
+                                <li>İnsan, sırf doğru olduğu için doğruyu yapmalıdır.</li>
+                                <li><strong>İletişimde:</strong> Yalan söylememek, aldatmamak, sözüne sadık olmak.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-header">
+                            2.2. Teleolojik/Faydacı Etik (Bentham–Mill)
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="accordion-content">
+                            <ul>
+                                <li>Bir davranış toplumun büyük bir kesimine <strong>fayda sağlıyorsa</strong> etiktir.</li>
+                                <li>“En çok kişiye en çok mutluluk” ilkesi.</li>
+                                <li><strong>İletişimde:</strong> Kamu yararı tartışmaları bu teoriyle ilişkilidir.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-header">
+                            2.3. Erdem Etiği (Aristoteles)
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="accordion-content">
+                            <ul>
+                                <li>Kurallar değil, <strong>karakter ve erdemler</strong> önemlidir.</li>
+                                <li>Örneğin: Ölçülülük, cesaret, adalet.</li>
+                                <li>Erdemli birey, iletişimde kendiliğinden etik davranır.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-header">
+                            2.4. Sözleşmeci ve Modern Yaklaşımlar
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="accordion-content">
+                            <ul>
+                                <li>Toplumların ortak sözleşmeler üzerinden etik kurallar geliştirdiğini savunur.</li>
+                                <li>Kurumsal etik kodları (örn. basın meslek ilkeleri) buradan doğar.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="key-message">
+                    Bu bölümün temel mesajı: <strong>Etik bir kural değil, bir düşünme biçimidir.</strong>
+                </div>
+            </div>
+
+            <!-- BÖLÜM 3: KİŞİLERARASI -->
+            <div id="bolum3" class="tab-content">
+                <h2><i class="fas fa-users"></i>Bölüm 3: Kişilerarası İletişimde Etik Problemler</h2>
+                <div class="grid-container">
+                    <div class="content-card">
+                        <h3>3.1. Manipülasyon ve İletişimsel Şiddet</h3>
+                        <p>Karşı tarafın rızasını dolaylı baskıyla yönlendirmektir. Genellikle fark edilmez.</p>
+                        <p><strong>Örnek:</strong> Suçluluk duygusu aşılayarak karar değiştirtme.</p>
+                    </div>
+                    <div class="content-card">
+                        <h3>3.2. Yalan Türleri</h3>
+                        <p>Tutar yalanı türlerine ayırır:</p>
+                        <ul>
+                            <li>Koruyucu yalan</li>
+                            <li>Zararlı yalan</li>
+                            <li>Stratejik yalan</li>
+                            <li>Toplumsal yalan</li>
+                        </ul>
+                    </div>
+                    <div class="content-card">
+                        <h3>3.3. Gücün İletişimde Kullanımı</h3>
+                        <p>Statü farkı olan ilişkilerde (yönetici–çalışan, öğretmen–öğrenci) güç dengesizliği etik sorunlara yol açar.</p>
+                    </div>
+                    <div class="content-card">
+                        <h3>3.4. Mahremiyet Hakkı ve Sınırlar</h3>
+                        <p>Etik iletişim, karşı tarafın şu alanlarına saygı göstermeyi gerektirir:</p>
+                        <ul>
+                            <li>Duygusal</li>
+                            <li>Fiziksel</li>
+                            <li>Kişisel</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BÖLÜM 4: İLKELER -->
+            <div id="bolum4" class="tab-content">
+                <h2><i class="fas fa-gavel"></i>Bölüm 4: İletişim Etiğinin Bileşenleri ve Temel İlkeleri</h2>
+                <div class="grid-container">
+                    <div class="content-box">
+                        <h3>4.1. Temel İlkeler</h3>
+                        <p>Hem kişilerarası hem de kurumsal iletişimde geçerli olan ilkeler:</p>
+                        <div class="principles-grid">
+                            <span class="principle-chip"><i class="fas fa-check-circle"></i> Doğruluk</span>
+                            <span class="principle-chip"><i class="fas fa-check-circle"></i> Dürüstlük</span>
+                            <span class="principle-chip"><i class="fas fa-balance-scale"></i> Adalet</span>
+                            <span class="principle-chip"><i class="fas fa-check-circle"></i> Sorumluluk</span>
+                            <span class="principle-chip"><i class="fas fa-eye"></i> Şeffaflık</span>
+                            <span class="principle-chip"><i class="fas fa-handshake"></i> Saygı</span>
+                            <span class="principle-chip"><i class="fas fa-check-circle"></i> Empati</span>
+                        </div>
+                    </div>
+                    <div class="content-box">
+                        <h3>4.2. Etik Kodlar</h3>
+                        <p>Bir kurumun veya mesleğin nasıl davranacağına dair kurallardır.</p>
+                        <p><strong>Örnek:</strong> Basın meslek ilkeleri, halkla ilişkiler kodları.</p>
+                        
+                        <h3>4.3. Etik Karar Verme Süreci</h3>
+                        <p>Kitapta açıklanan etik karar verme modeli:</p>
+                        <ol>
+                            <li>Problemi tanımlama</li>
+                            <li>Tarafları belirleme</li>
+                            <li>Değerleri tanımlama</li>
+                            <li>Sonuçları değerlendirme</li>
+                            <li>En etik seçeneği uygulama</li>
+                            <li>Sorumluluğu üstlenme</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BÖLÜM 5: TOPLUMSAL -->
+            <div id="bolum5" class="tab-content">
+                <h2><i class="fas fa-globe-americas"></i>Bölüm 5: Toplumsal İletişim Etiği ve Kamusal Alan</h2>
+                <div class="grid-container-3">
+                    <div class="content-card">
+                        <h3>5.1. Toplumsal Güvenin İnşası</h3>
+                        <p>Toplumun sağlıklı işleyişi için <strong>doğru bilgi, şeffaflık</strong> ve <strong>hesap verebilirlik</strong> gerekir.</p>
+                        <p>Yanlış bilgi ve manipülatif söylemler toplumsal çözülmeye neden olur.</p>
+                    </div>
+                    <div class="content-card">
+                        <h3>5.2. Nefret Söylemi ve Dilin Gücü</h3>
+                        <p>Dil, toplumsal kutuplaşma yaratabilir.</p>
+                        <p>Siyasi ve ideolojik söylemler etik sınırları zorladığında kitleler üzerinde toksik etkiler doğar.</p>
+                    </div>
+                    <div class="content-card">
+                        <h3>5.3. Kamusal Alan ve Medya Sorumluluğu</h3>
+                        <p>Medya, toplumun düşünce oluşumunu etkilediği için şunları yapmak zorundadır:</p>
+                        <ul>
+                            <li>Gerçekliği çarpıtmamak</li>
+                            <li>Özel hayatı ihlal etmemek</li>
+                            <li>Toplumsal faydayı gözetmek</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BÖLÜM 6: MEDYA ETİĞİ -->
+            <div id="bolum6" class="tab-content">
+                <h2><i class="fas fa-tv"></i>Bölüm 6: Kitle İletişiminde Etik Sorunlar ve Medya Etiği</h2>
+                
+                <div class="grid-container">
+                    <div class="content-box">
+                        <h3>6.1. Medyanın Toplumsal Rolü</h3>
+                        <p>Medya:</p>
+                        <ul>
+                            <li>Bilgi sağlar</li>
+                            <li>Kamuoyu oluşturur</li>
+                            <li>Eğitir ve yönlendirir</li>
+                            <li>Güç ilişkilerini dönüştürür</li>
+                        </ul>
+                    </div>
+                    <div class="content-box">
+                        <h3>6.2. Gazetecilikte Etik İlkeler</h3>
+                        <div class="principles-grid">
+                            <span class="principle-chip">Doğru bilgi verme</span>
+                            <span class="principle-chip">Tarafsızlık/Nesnellik</span>
+                            <span class="principle-chip">Kaynak doğrulama</span>
+                            <span class="principle-chip">Haber–yorum ayrımı</span>
+                            <span class="principle-chip">Gizlilik ilkesi</span>
+                            <span class="principle-chip">Zarar azaltma ilkesi</span>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 30px;">6.3. Medyada Etik İhlaller</h3>
+                <dl>
+                    <dt>a) Sansasyon ve Abartı</dt>
+                    <dd>Trafik kazaları, suç haberleri gibi konuların reyting uğruna abartılması.</dd>
+                    
+                    <dt>b) Mahremiyet İhlalleri</dt>
+                    <dd>Ünlülerin özel hayatı, çocukların görüntüleri, acı içindeki insanların fotoğrafları.</dd>
+                    
+                    <dt>c) Çarpıtılmış Haber</dt>
+                    <dd>Bilginin bağlamından koparılarak sunulması.</dd>
+                    
+                    <dt>d) Propaganda ve Manipülasyon</dt>
+                    <dd>Medyanın ideolojik veya ekonomik çıkarlarla gerçekliği eğip bükmesi.</dd>
+                    
+                    <dt>e) Reklam–Haber Karışması</dt>
+                    <dd>"Native advertising" (doğal reklam) gibi reklama haber süsü verilmesi.</dd>
+                </dl>
+
+                <div class="key-message">
+                    <h3>6.4. Medyada Güç, İktidar ve Etik</h3>
+                    <p>Medya; siyasal iktidar, sermaye ve kamuoyu arasında bir güç aracıdır. Bu güç yanlış kullanıldığında gerçeklik bozulur, manipülasyon artar ve toplumsal kutuplaşma derinleşir.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabs = document.querySelectorAll('.tab-button');
+            const contents = document.querySelectorAll('.tab-content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all
+                    tabs.forEach(t => t.classList.remove('active'));
+                    contents.forEach(c => c.classList.remove('active'));
+
+                    // Add active class to clicked tab and content
+                    tab.classList.add('active');
+                    const tabId = tab.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+
+            const accordions = document.querySelectorAll('.accordion-item');
+            accordions.forEach(item => {
+                const header = item.querySelector('.accordion-header');
+                const content = item.querySelector('.accordion-content');
+
+                header.addEventListener('click', () => {
+                    // Kapatma/Açma
+                    if (item.classList.contains('active')) {
+                        item.classList.remove('active');
+                        content.style.maxHeight = null;
+                        content.style.padding = "0 25px";
+                    } else {
+                        // (Opsiyonel: diğerlerini kapat)
+                        // accordions.forEach(i => {
+                        //     i.classList.remove('active');
+                        //     i.querySelector('.accordion-content').style.maxHeight = null;
+                        // });
+                        
+                        item.classList.add('active');
+                        content.style.padding = "1px 25px"; // padding için yer aç
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
