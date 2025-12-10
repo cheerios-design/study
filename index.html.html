@@ -1,641 +1,496 @@
 <!DOCTYPE html>
-<html lang="az">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ad Günün Mübarək, Həbibə!</title>
+    <title>Kurumsal Kimlik Projesi - Stratejik Sunum</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                akorange: {
+                    DEFAULT: '#ff6000', // Resmi tona yakın canlı turuncu
+                    dark: '#e65100'
+                },
+                akblue: {
+                    DEFAULT: '#002d72', // Resmi koyu mavi/lacivert
+                    dark: '#001a4d'
+                }
+              }
+            }
+          }
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;600&display=swap');
-
-        :root {
-            --primary: #ff8fab; /* Princess Pink */
-            --primary-dark: #fb6f92;
-            --secondary: #ffe5ec; /* Light Rose */
-            --accent: #FFD700; /* Gold */
-            --cake-color: #ffc2d1;
-            --frosting-color: #fff0f3;
-            --text-color: #590d22;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
         body {
-            font-family: 'Quicksand', sans-serif;
-            background: #ffe5ec;
-            background: radial-gradient(circle at center, #fff0f3 0%, #ffccd5 100%);
-            height: 100vh;
+            font-family: 'Inter', sans-serif;
             overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
+            background-color: #0f172a; /* Slate 900 - Modern Dark */
+            color: white;
         }
 
-        /* --- Sparkles Background --- */
-        .sparkle-bg {
+        h1, h2, h3, h4 {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .slide {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-            background-image: 
-                radial-gradient(white 1px, transparent 1px),
-                radial-gradient(white 1px, transparent 1px);
-            background-size: 50px 50px;
-            background-position: 0 0, 25px 25px;
-            opacity: 0.5;
-            animation: twinkle 4s linear infinite;
-        }
-
-        @keyframes twinkle {
-            0% { opacity: 0.3; }
-            50% { opacity: 0.6; }
-            100% { opacity: 0.3; }
-        }
-
-        /* --- Z-Index Layers --- */
-        #balloon-container { z-index: 1; position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
-        .card { z-index: 10; }
-        .flower-bed { z-index: 5; }
-        #confetti-canvas { z-index: 20; position: absolute; top: 0; left: 0; pointer-events: none; }
-
-        /* --- Main Card --- */
-        .card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 2.5rem;
-            border-radius: 30px;
-            box-shadow: 0 20px 50px rgba(255, 182, 193, 0.4);
-            text-align: center;
-            max-width: 90%;
-            width: 420px;
-            border: 6px solid #fff;
-            outline: 2px dashed #ffb3c1; /* Stitching effect */
-            outline-offset: -10px;
-            position: relative;
-            animation: floatCard 6s ease-in-out infinite;
-        }
-
-        @keyframes floatCard {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        /* --- Crown --- */
-        .crown {
-            position: relative;
-            width: 60px;
-            height: 40px;
-            margin: -40px auto 10px auto; /* Pull up slightly */
-            z-index: 12;
-        }
-        .crown span {
-            position: absolute;
-            bottom: 0;
-            width: 20px;
-            height: 100%;
-            background: var(--accent);
-            border-radius: 5px 5px 0 0;
-            clip-path: polygon(0% 100%, 0% 20%, 50% 0%, 100% 20%, 100% 100%);
-        }
-        .crown span:nth-child(1) { left: 0; height: 80%; transform: rotate(-15deg); }
-        .crown span:nth-child(2) { left: 20px; height: 100%; z-index: 2; }
-        .crown span:nth-child(3) { left: 40px; height: 80%; transform: rotate(15deg); }
-        
-        /* Jewels on crown */
-        .crown::after {
-            content: '';
-            position: absolute;
-            bottom: 5px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 8px;
-            height: 8px;
-            background: #ff69b4;
-            border-radius: 50%;
-            z-index: 5;
-            box-shadow: -20px -5px 0 #fff, 20px -5px 0 #fff;
-        }
-
-        h1 {
-            font-family: 'Dancing Script', cursive;
-            color: var(--primary-dark);
-            font-size: 3.5rem;
-            margin-bottom: 0.5rem;
-            text-shadow: 2px 2px 0px rgba(255,255,255,0.8);
-            line-height: 1.2;
-        }
-
-        p.editable {
-            color: var(--text-color);
-            margin-bottom: 2rem;
-            border: 1px dashed transparent;
-            padding: 5px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            transition: border 0.3s;
-            outline: none;
-        }
-        
-        p.editable:hover, p.editable:focus {
-            border-color: #ffb3c1;
-            background: rgba(255,240,243,0.5);
-            border-radius: 10px;
-        }
-
-        /* --- CSS Cake --- */
-        .cake-container {
-            position: relative;
-            width: 200px;
-            height: 160px;
-            margin: 0 auto 2rem auto;
+            height: 100vh;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+            transform: translateY(20px) scale(0.95);
             display: flex;
             flex-direction: column;
-            justify-content: flex-end;
+            justify-content: center;
             align-items: center;
+            padding: 2rem;
+            box-sizing: border-box;
+            z-index: 1;
         }
 
-        .plate {
-            width: 240px;
-            height: 12px;
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .layer {
-            background: var(--cake-color);
-            width: 100%;
-            border-radius: 10px 10px 0 0;
-            position: relative;
-            background-image: radial-gradient(#ff8fab 10%, transparent 10%); /* Polka dots */
-            background-size: 20px 20px;
-        }
-
-        .layer-bottom { width: 180px; height: 50px; }
-        .layer-middle { width: 140px; height: 40px; background-color: #ffb3c1; }
-        .layer-top { width: 100px; height: 35px; background-color: #ffccd5; }
-
-        /* Frosting Drips */
-        .frosting {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 15px;
-            background: var(--frosting-color);
-            border-radius: 10px 10px 0 0;
-            z-index: 2;
-        }
-        .frosting::after {
-            content: '';
-            position: absolute;
-            top: 10px;
-            left: 0;
-            width: 100%;
-            height: 10px;
-            background: radial-gradient(circle, var(--frosting-color) 60%, transparent 65%);
-            background-size: 20px 20px;
-            background-position: 0 -5px;
-        }
-
-        /* Candles */
-        .candles {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: -5px;
-            z-index: 2;
-        }
-
-        .candle {
-            width: 10px;
-            height: 35px;
-            background: repeating-linear-gradient(45deg, #fff, #fff 5px, #FFD700 5px, #FFD700 10px);
-            position: relative;
-            border-radius: 3px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .flame {
-            width: 12px;
-            height: 18px;
-            background: orange;
-            border-radius: 50% 50% 20% 20%;
-            position: absolute;
-            top: -18px;
-            left: -1px;
-            background: radial-gradient(white, #ffd700, #ff6b6b);
-            filter: blur(1px);
-            animation: flicker 0.5s infinite alternate;
+        .slide.active {
             opacity: 1;
-            transition: opacity 0.5s, transform 0.5s;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+            z-index: 10;
         }
 
-        .flame.out {
+        .slide.prev {
+            transform: translateY(-100%) scale(1);
             opacity: 0;
-            transform: scale(0.1);
         }
 
-        @keyframes flicker {
-            0% { transform: scale(1) rotate(-2deg); }
-            100% { transform: scale(1.1) rotate(2deg); }
+        .highlight {
+            color: #ff6000; /* akorange */
         }
 
-        /* --- Action Button --- */
-        button {
-            background: linear-gradient(45deg, #ff8fab, #fb6f92);
-            color: white;
-            border: none;
-            padding: 14px 30px;
-            font-size: 1.1rem;
-            border-radius: 50px;
-            cursor: pointer;
-            font-family: 'Quicksand', sans-serif;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            box-shadow: 0 5px 20px rgba(251, 111, 146, 0.4);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        button:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 10px 25px rgba(251, 111, 146, 0.6);
-        }
-        
-        button:active {
-            transform: translateY(1px);
-        }
-
-        button:disabled {
-            background: #e0e0e0;
-            cursor: default;
-            box-shadow: none;
-        }
-
-        /* --- Balloons --- */
-        .balloon {
+        /* Background Graphics */
+        .bg-gradient-circle {
             position: absolute;
-            bottom: -100px;
-            width: 50px;
-            height: 65px;
             border-radius: 50%;
-            background-color: var(--primary);
-            box-shadow: inset -5px -5px 10px rgba(0,0,0,0.1);
-            animation: floatUp linear forwards;
-            cursor: pointer;
-            pointer-events: auto !important; /* Allow clicking */
-            z-index: 2;
+            filter: blur(90px);
+            z-index: 0;
+            opacity: 0.35;
         }
 
-        /* String */
-        .balloon::before {
-            content: '';
-            position: absolute;
-            bottom: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 1px;
-            height: 45px;
-            background: rgba(0,0,0,0.2);
+        /* Animations */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
         
-        /* Knot */
-        .balloon::after {
-            content: '▲';
-            font-size: 10px;
-            color: inherit;
+        .active .fade-in-up {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+        .delay-500 { transition-delay: 500ms; }
+
+        /* Floating Cards for "Chaos" Slide */
+        .chaos-card {
             position: absolute;
-            bottom: -12px;
-            left: 50%;
-            transform: translateX(-50%);
+            background: white;
+            color: black;
+            padding: 1rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            font-size: 0.8rem;
+            width: 200px;
+            text-align: center;
+            transition: transform 0.3s;
         }
-
-        @keyframes floatUp {
-            0% { transform: translateY(0) rotate(0deg); opacity: 0.9; }
-            100% { transform: translateY(-120vh) rotate(10deg); opacity: 0.7; }
-        }
-
-        .pop {
-            animation: popAnim 0.2s ease-out forwards;
-        }
-        @keyframes popAnim {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.4); opacity: 0.8; }
-            100% { transform: scale(0); opacity: 0; }
-        }
-
-        /* --- Realistic Interactive Flowers --- */
-        .flower-bed {
-            position: absolute;
+        
+        /* Progress Bar */
+        .progress-container {
+            position: fixed;
             bottom: 0;
+            left: 0;
             width: 100%;
-            height: 140px;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            pointer-events: none;
-            gap: 20px;
-            padding-bottom: 20px;
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            z-index: 50;
+        }
+        .progress-bar {
+            height: 100%;
+            background: #ff6000; /* akorange */
+            width: 0%;
+            transition: width 0.5s ease;
         }
 
-        .flower-wrapper {
-            position: relative;
-            z-index: 5;
-            pointer-events: auto; /* Enable interaction */
+        /* Navigation Buttons */
+        .nav-btn {
+            position: fixed;
+            bottom: 30px;
+            z-index: 50;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
             cursor: pointer;
-            transition: transform 0.3s ease;
+            transition: all 0.3s;
+        }
+        .nav-btn:hover {
+            background: #ff6000;
+            border-color: #ff6000;
+        }
+        .nav-prev { left: 30px; }
+        .nav-next { right: 30px; }
+
+        /* Grid for Solution */
+        .grid-system {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 1000px;
+        }
+        .grid-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+        .grid-card:hover {
+            background: rgba(255, 96, 0, 0.1);
+            border-color: #ff6000;
+            transform: translateY(-5px);
         }
 
-        .flower-wrapper:hover {
-            transform: scale(1.1) translateY(-10px);
+        .benefit-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #ff6000;
         }
-
-        /* The Rose Head */
-        .rose {
-            width: 60px;
-            height: 60px;
-            position: relative;
-            background: #e0218a;
-            border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, #ff8fab, #fb6f92, #c71585);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            animation: sway 5s ease-in-out infinite;
-            transform-origin: bottom center;
-        }
-
-        /* Layers of petals using box-shadows and pseudo elements for realism */
-        .rose::before {
-            content: '';
-            position: absolute;
-            top: 10%;
-            left: 10%;
-            width: 80%;
-            height: 80%;
-            border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, #ffe5ec, #ff8fab);
-            transform: rotate(45deg);
-            opacity: 0.8;
-            box-shadow: inset 2px 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .rose::after {
-            content: '';
-            position: absolute;
-            top: 25%;
-            left: 25%;
-            width: 50%;
-            height: 50%;
-            border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, #fff0f3, #ffe5ec);
-            box-shadow: inset 1px 1px 3px rgba(0,0,0,0.1);
-        }
-        
-        /* Realistic Stem */
-        .rose-stem {
-            width: 6px;
-            height: 80px;
-            background: linear-gradient(to right, #2d6a4f, #40916c, #2d6a4f);
-            margin: -5px auto 0;
-            position: relative;
-            border-radius: 0 0 5px 5px;
-            z-index: -1;
-        }
-
-        /* Leaves */
-        .rose-leaf {
-            position: absolute;
-            width: 30px;
-            height: 15px;
-            background: linear-gradient(45deg, #2d6a4f, #52b788);
-            border-radius: 20px 0 20px 0;
-            box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
-        }
-        .rose-leaf.l1 { top: 20px; left: -25px; transform: rotate(-15deg); }
-        .rose-leaf.l2 { top: 40px; right: -25px; transform: rotate(15deg) scaleX(-1); }
-
-        /* Bloom Animation on click */
-        .bloom {
-            animation: bloomEffect 0.6s ease-out forwards;
-        }
-
-        @keyframes bloomEffect {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.3) rotate(10deg); }
-            100% { transform: scale(1.1); }
-        }
-
-        @keyframes sway {
-            0%, 100% { transform: rotate(-3deg); }
-            50% { transform: rotate(3deg); }
-        }
-
     </style>
 </head>
 <body>
 
-    <div class="sparkle-bg"></div>
-    <div id="balloon-container"></div>
-    <canvas id="confetti-canvas"></canvas>
+    <!-- Dynamic Background Elements -->
+    <div class="bg-gradient-circle bg-akorange w-96 h-96 top-0 left-0"></div>
+    <div class="bg-gradient-circle bg-akblue w-[600px] h-[600px] bottom-0 right-0"></div>
 
-    <div class="card">
-        <div class="crown">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <!-- Azerbaijani Content -->
-        <h1 contenteditable="true">Ad Günün Mübarək,<br>Həbibə!</h1>
-        <p class="editable" contenteditable="true">Ən şirin və enerjili qıza &lt;3</p>
-        
-        <div class="cake-container">
-            <div class="candles">
-                <div class="candle"><div class="flame"></div></div>
-                <div class="candle"><div class="flame"></div></div>
-                <div class="candle"><div class="flame"></div></div>
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Navigation -->
+    <button class="nav-btn nav-prev" onclick="changeSlide(-1)">
+        <i class="fas fa-arrow-left"></i> Geri
+    </button>
+    <button class="nav-btn nav-next" onclick="changeSlide(1)">
+        İleri <i class="fas fa-arrow-right"></i>
+    </button>
+    <div class="fixed bottom-8 left-1/2 transform -translate-x-1/2 text-gray-500 text-sm z-50">
+        Yön tuşlarını kullanabilirsiniz
+    </div>
+
+    <!-- SLIDE 1: INTRO -->
+    <section class="slide active" id="slide-0">
+        <div class="text-center max-w-5xl fade-in-up">
+            <div class="mb-6 inline-block px-5 py-2 rounded-full border border-akorange text-akorange font-bold text-sm tracking-wider uppercase bg-akorange/10">
+                Stratejik Proje Sunumu
             </div>
-            <div class="layer layer-top"><div class="frosting"></div></div>
-            <div class="layer layer-middle"><div class="frosting"></div></div>
-            <div class="layer layer-bottom"><div class="frosting"></div></div>
-            <div class="plate"></div>
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
+                GÜÇLÜ BİR GELECEK İÇİN<br>
+                <span class="highlight">GÜÇLÜ BİR KİMLİK</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-300 font-light mb-10">
+                AK Parti Gençlik ve Kadın Kolları <br> Kurumsal Kimlik Entegrasyon Projesi
+            </p>
+            <div class="mt-8 p-6 border-l-4 border-akorange bg-white/5 text-left max-w-xl mx-auto backdrop-blur-sm">
+                <p class="text-gray-400 text-xs uppercase tracking-wide mb-1">Sunan:</p>
+                <p class="text-2xl font-bold text-white">Sam Daramroei</p>
+                <p class="text-akorange text-sm font-semibold mt-1">Kültür ve Sanat Politikaları Başkanlığı</p>
+            </div>
         </div>
+    </section>
 
-        <button id="wishBtn" onclick="makeAWish()">Arzu Tut!</button>
-    </div>
+    <!-- SLIDE 2: VISION -->
+    <section class="slide" id="slide-1">
+        <div class="max-w-5xl text-center fade-in-up">
+            <i class="fas fa-bullseye text-6xl text-akorange mb-8"></i>
+            <h2 class="text-4xl md:text-5xl font-bold mb-8">Vizyonumuz</h2>
+            <p class="text-2xl md:text-3xl leading-relaxed font-light">
+                "Türkiye'nin en büyük siyasi organizasyonu, Gençlik ve Kadın Kollarında 
+                <span class="font-bold text-akorange">ana markayla bütünleşik</span>, güçlü bir 
+                <span class="font-bold text-akorange">görsel disipline</span> sahip olmalıdır."
+            </p>
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-center delay-300 fade-in-up">
+                <div>
+                    <h3 class="text-4xl font-bold text-akorange mb-2">81</h3>
+                    <p class="text-gray-400 uppercase tracking-widest text-sm font-semibold">Şehir</p>
+                </div>
+                <div>
+                    <h3 class="text-4xl font-bold text-akorange mb-2">Bütünleşik</h3>
+                    <p class="text-gray-400 uppercase tracking-widest text-sm font-semibold">Marka</p>
+                </div>
+                <div>
+                    <h3 class="text-4xl font-bold text-akorange mb-2">Tek</h3>
+                    <p class="text-gray-400 uppercase tracking-widest text-sm font-semibold">Görüntü</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <div class="flower-bed" id="flower-bed">
-        <!-- Flowers generated by JS -->
-    </div>
+    <!-- SLIDE 3: PROBLEM (CHAOS) -->
+    <section class="slide" id="slide-2">
+        <div class="absolute inset-0 z-0 opacity-20 pointer-events-none" id="chaos-container">
+            <!-- Simulated chaos background generated by JS -->
+        </div>
+        <div class="relative z-10 text-center max-w-6xl fade-in-up bg-black/60 p-10 rounded-xl backdrop-blur-md border border-red-500/30 shadow-2xl">
+            <h2 class="text-4xl font-bold mb-6 text-red-500"><i class="fas fa-exclamation-triangle mr-3"></i> Mevcut Durum: Marka Kopukluğu</h2>
+            <p class="text-xl mb-8 text-gray-300">Gençlik ve Kadın Kolları logoları, ana AK Parti logosundan görsel olarak kopuk ve tipografik açıdan uyumsuz.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+                <div class="bg-white/5 p-6 rounded-lg border border-white/10">
+                    <h4 class="font-bold text-red-400 mb-4 text-lg border-b border-white/10 pb-2">Tespit Edilen Kritik Sorunlar</h4>
+                    <ul class="space-y-4 text-base text-gray-300">
+                        <li class="flex items-start"><i class="fas fa-unlink text-red-500 w-6 mt-1 flex-shrink-0"></i> 
+                            <span><strong>Ana Logodan Kopukluk:</strong> Alt markalar ana kimliği yansıtmıyor, bağımsız kurumlar gibi algılanıyor.</span>
+                        </li>
+                        <li class="flex items-start"><i class="fas fa-font text-red-500 w-6 mt-1 flex-shrink-0"></i> 
+                            <span><strong>Tipografi Uyuşmazlığı:</strong> Kullanılan yazı karakterleri ana markadan tamamen farklı.</span>
+                        </li>
+                        <li class="flex items-start"><i class="fas fa-layer-group text-red-500 w-6 mt-1 flex-shrink-0"></i> 
+                            <span><strong>Görsel Bütünlük Eksikliği:</strong> Gençlik ve Kadın Kolları arasında tasarım dili birliği yok.</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="bg-white/5 p-6 rounded-lg border border-white/10">
+                    <h4 class="font-bold text-red-400 mb-4 text-lg border-b border-white/10 pb-2">Yarattığı Olumsuz Etkiler</h4>
+                    <ul class="space-y-4 text-base text-gray-300">
+                        <li class="flex items-start"><i class="fas fa-arrow-down text-red-500 w-6 mt-1 flex-shrink-0"></i> 
+                            <span>Ana markanın gücünün alt birimlere aktarılamaması.</span>
+                        </li>
+                        <li class="flex items-start"><i class="fas fa-eye-slash text-red-500 w-6 mt-1 flex-shrink-0"></i> 
+                            <span>"Tek Parti" algısının görsel olarak zayıflaması.</span>
+                        </li>
+                        <li class="flex items-start"><i class="fas fa-random text-red-500 w-6 mt-1 flex-shrink-0"></i> 
+                            <span>Kamuoyunda kurumsal dağınıklık algısı.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 4: SOLUTION (ORDER) -->
+    <section class="slide" id="slide-3">
+        <div class="text-center max-w-5xl w-full fade-in-up">
+            <h2 class="text-4xl font-bold mb-4">Çözüm: <span class="highlight">Bütünleşik Kimlik Sistemi</span></h2>
+            <p class="text-xl text-gray-400 mb-10">Ana markayı besleyen, uyumlu alt marka mimarisi.</p>
+
+            <div class="grid-system mx-auto">
+                <div class="grid-card delay-100 fade-in-up">
+                    <i class="fas fa-project-diagram benefit-icon"></i>
+                    <h3 class="text-xl font-bold mb-2">Logo Mimarisi</h3>
+                    <p class="text-sm text-gray-400">Kadın ve Gençlik kollarını ana logoyla görsel olarak bağlayan sistem.</p>
+                </div>
+                <div class="grid-card delay-200 fade-in-up">
+                    <i class="fas fa-font benefit-icon"></i>
+                    <h3 class="text-xl font-bold mb-2">Ortak Tipografi</h3>
+                    <p class="text-sm text-gray-400">Tüm birimlerin aynı font ailesini kullanarak konuşması.</p>
+                </div>
+                <div class="grid-card delay-300 fade-in-up">
+                    <i class="fas fa-swatchbook benefit-icon"></i>
+                    <h3 class="text-xl font-bold mb-2">Renk Uyumu</h3>
+                    <p class="text-sm text-gray-400">Kurumsal turuncu ve lacivertin standart kullanımı.</p>
+                </div>
+                <div class="grid-card delay-100 fade-in-up">
+                    <i class="fab fa-instagram benefit-icon"></i>
+                    <h3 class="text-xl font-bold mb-2">Dijital Medya</h3>
+                    <p class="text-sm text-gray-400">Her iki kol için de uyarlanmış, tutarlı sosyal medya şablonları.</p>
+                </div>
+                <div class="grid-card delay-200 fade-in-up">
+                    <i class="fas fa-users benefit-icon"></i>
+                    <h3 class="text-xl font-bold mb-2">Alt Marka Kimliği</h3>
+                    <p class="text-sm text-gray-400">Gençlik ve Kadın kollarının dinamizmini koruyan ancak ana markadan kopmayan tasarım.</p>
+                </div>
+                <div class="grid-card delay-300 fade-in-up">
+                    <i class="fas fa-book benefit-icon"></i>
+                    <h3 class="text-xl font-bold mb-2">Tek Kılavuz</h3>
+                    <p class="text-sm text-gray-400">Tüm teşkilatın uyması gereken tek ve net kurallar kitabı.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 5: STRATEGIC BENEFITS -->
+    <section class="slide" id="slide-4">
+        <div class="flex flex-col md:flex-row items-center w-full max-w-6xl gap-10">
+            <div class="w-full md:w-1/2 fade-in-up">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Stratejik <br><span class="highlight">Kazanımlar</span></h2>
+                <p class="text-lg text-gray-300 mb-6">Bu proje sadece bir tasarım çalışması değil, bir verimlilik ve algı yönetimi projesidir.</p>
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-4 bg-white/5 p-4 rounded-lg border-l-4 border-akorange hover:bg-white/10 transition">
+                        <div class="font-bold text-2xl text-akorange">01</div>
+                        <div>
+                            <h4 class="font-bold">Kurumsal Otorite</h4>
+                            <p class="text-sm text-gray-400">Güven veren, devlet ciddiyetiyle uyumlu bir imaj.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4 bg-white/5 p-4 rounded-lg border-l-4 border-akorange hover:bg-white/10 transition">
+                        <div class="font-bold text-2xl text-akorange">02</div>
+                        <div>
+                            <h4 class="font-bold">Kaynak Tasarrufu</h4>
+                            <p class="text-sm text-gray-400">Hazır şablonlarla illerin tasarım maliyetini ve zaman kaybını sıfırlama.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4 bg-white/5 p-4 rounded-lg border-l-4 border-akorange hover:bg-white/10 transition">
+                        <div class="font-bold text-2xl text-akorange">03</div>
+                        <div>
+                            <h4 class="font-bold">Bütünleşik Güç</h4>
+                            <p class="text-sm text-gray-400">Kadın ve Gençlik kollarının enerjisinin ana markaya doğrudan görsel katkısı.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="w-full md:w-1/2 h-[400px] bg-gradient-to-tr from-akorange to-akblue rounded-2xl flex items-center justify-center shadow-2xl fade-in-up delay-200 relative overflow-hidden group">
+                <!-- Abstract Representation of Unity -->
+                <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition duration-500"></div>
+                <i class="fas fa-users-cog text-9xl text-white opacity-80 group-hover:scale-110 transition duration-500"></i>
+                <div class="absolute bottom-6 left-6 text-white font-bold text-xl drop-shadow-lg">
+                    Sürdürülebilir Bir Sistem
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 6: ROADMAP -->
+    <section class="slide" id="slide-5">
+        <h2 class="text-4xl font-bold mb-12 fade-in-up">Proje Yol Haritası</h2>
+        <div class="relative w-full max-w-5xl fade-in-up delay-100">
+            <div class="absolute top-1/2 left-0 w-full h-1 bg-gray-700 transform -translate-y-1/2 hidden md:block"></div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 relative z-10">
+                <!-- Step 1 -->
+                <div class="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-akorange transition duration-300">
+                    <div class="text-akorange font-bold text-lg mb-2">1. Analiz</div>
+                    <div class="text-xs text-gray-400 mb-2">2 Hafta</div>
+                    <h4 class="font-bold mb-2">Mevcut Durum</h4>
+                    <p class="text-sm text-gray-400">İhtiyaçların tespiti ve envanter taraması.</p>
+                </div>
+                <!-- Step 2 -->
+                <div class="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-akorange transition duration-300">
+                    <div class="text-akorange font-bold text-lg mb-2">2. Tasarım</div>
+                    <div class="text-xs text-gray-400 mb-2">4 Hafta</div>
+                    <h4 class="font-bold mb-2">Konsept Geliştirme</h4>
+                    <p class="text-sm text-gray-400">Logo, tipografi ve ana görsel dilin inşası.</p>
+                </div>
+                <!-- Step 3 -->
+                <div class="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-akorange transition duration-300">
+                    <div class="text-akorange font-bold text-lg mb-2">3. Sistem</div>
+                    <div class="text-xs text-gray-400 mb-2">3 Hafta</div>
+                    <h4 class="font-bold mb-2">Brandbook & Şablon</h4>
+                    <p class="text-sm text-gray-400">Tüm iller için kullanılabilir şablon arşivi.</p>
+                </div>
+                <!-- Step 4 -->
+                <div class="bg-gray-800 p-6 rounded-lg border border-akorange shadow-[0_0_20px_rgba(255,96,0,0.3)] transition duration-300">
+                    <div class="text-akorange font-bold text-lg mb-2">4. Lansman</div>
+                    <div class="text-xs text-gray-400 mb-2">1 Hafta</div>
+                    <h4 class="font-bold mb-2">Dağıtım & Eğitim</h4>
+                    <p class="text-sm text-gray-400">Sistemin teşkilata duyurulması ve eğitim.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 7: END (CONTACT) -->
+    <section class="slide" id="slide-6">
+        <div class="text-center max-w-3xl fade-in-up">
+            <h2 class="text-5xl font-bold mb-6">Teşekkürler</h2>
+            <p class="text-2xl text-gray-300 mb-12 leading-relaxed">
+                Gençlik ve Kadın Kollarımızı, partimizin kurumsal gücünü yansıtan modern ve bütünleşik bir kimliğe kavuşturmaya hazırız.
+            </p>
+            
+            <div class="mt-8 pt-8 border-t border-gray-700 inline-block px-12">
+                <p class="font-bold text-3xl mb-2">Sam Daramroei</p>
+                <p class="text-akorange text-lg font-semibold tracking-wide uppercase">Kültür ve Sanat Politikaları Başkanlığı</p>
+            </div>
+        </div>
+    </section>
 
     <script>
-        // --- Balloon Logic (Faster & More Balloons) ---
-        const balloonContainer = document.getElementById('balloon-container');
-        const colors = ['#ff8fab', '#fb6f92', '#ffe5ec', '#e7c6ff', '#FFD700', '#ffffff'];
-
-        function createBalloon() {
-            const balloon = document.createElement('div');
-            balloon.classList.add('balloon');
-            
-            const size = Math.floor(Math.random() * 25) + 35; 
-            const color = colors[Math.floor(Math.random() * colors.length)];
-            const left = Math.floor(Math.random() * 90) + 5; 
-            const duration = Math.floor(Math.random() * 4) + 5; // Faster float (5-9s)
-
-            balloon.style.width = `${size}px`;
-            balloon.style.height = `${size * 1.2}px`;
-            balloon.style.backgroundColor = color;
-            balloon.style.color = color;
-            balloon.style.left = `${left}%`;
-            balloon.style.animationDuration = `${duration}s`;
-
-            // Interaction
-            balloon.addEventListener('click', function() {
-                this.classList.add('pop');
-                setTimeout(() => {
-                    if (this.parentNode) this.parentNode.removeChild(this);
-                }, 200);
-            });
-
-            balloonContainer.appendChild(balloon);
-
-            setTimeout(() => {
-                if (balloon.parentNode) balloon.parentNode.removeChild(balloon);
-            }, duration * 1000);
-        }
-
-        // Increased frequency: 2 balloons per second roughly
-        setInterval(createBalloon, 400);
-
-
-        // --- Realistic Interactive Rose Logic ---
-        const flowerBed = document.getElementById('flower-bed');
+        let currentSlide = 0;
+        const totalSlides = 7; // 0 to 6
         
-        function createFlowers() {
-            // Calculate how many fit
-            const flowerCount = Math.floor(window.innerWidth / 70);
-            
-            for(let i=0; i<flowerCount; i++) {
-                const wrapper = document.createElement('div');
-                wrapper.classList.add('flower-wrapper');
-                
-                // Randomize look slightly
-                const scale = 0.8 + Math.random() * 0.4;
-                wrapper.style.transform = `scale(${scale})`;
-                
-                // Random sway delay
-                const delay = Math.random() * 5;
-                
-                let html = `
-                    <div class="rose" style="animation-delay: -${delay}s"></div>
-                    <div class="rose-stem">
-                        <div class="rose-leaf l1"></div>
-                        <div class="rose-leaf l2"></div>
-                    </div>
-                `;
-                
-                wrapper.innerHTML = html;
-                
-                // Add click interaction
-                wrapper.addEventListener('click', function() {
-                    const rose = this.querySelector('.rose');
-                    rose.classList.remove('bloom');
-                    void rose.offsetWidth; // Trigger reflow
-                    rose.classList.add('bloom');
-                });
+        // Setup Chaos Elements for Slide 2
+        function setupChaos() {
+            const container = document.getElementById('chaos-container');
+            const colors = ['#EF4444', '#002d72', '#10B981', '#ff6000', '#6366F1'];
+            const rotations = ['-15deg', '10deg', '-5deg', '20deg', '-25deg'];
+            const contents = [
+                'Kötü Font!', 'Yanlış Logo', 'Pikselleşmiş', 'Eski Renkler', 
+                'Karmaşa', 'Okunmuyor', 'Standart Dışı', 'Dağınık'
+            ];
 
-                flowerBed.appendChild(wrapper);
+            for (let i = 0; i < 15; i++) {
+                const el = document.createElement('div');
+                el.className = 'chaos-card';
+                el.innerText = contents[Math.floor(Math.random() * contents.length)];
+                el.style.left = Math.random() * 80 + 10 + '%';
+                el.style.top = Math.random() * 80 + 10 + '%';
+                el.style.transform = `rotate(${rotations[Math.floor(Math.random() * rotations.length)]})`;
+                el.style.backgroundColor = 'white';
+                el.style.borderTop = `5px solid ${colors[Math.floor(Math.random() * colors.length)]}`;
+                container.appendChild(el);
             }
         }
-        createFlowers();
 
-
-        // --- Make a Wish Logic (Azerbaijani) ---
-        function makeAWish() {
-            const btn = document.getElementById('wishBtn');
-            const flames = document.querySelectorAll('.flame');
-            
-            btn.disabled = true;
-            btn.innerText = "Ad Günün Mübarək!"; // Changed text
-            
-            flames.forEach((flame, index) => {
-                setTimeout(() => {
-                    flame.classList.add('out');
-                }, index * 200);
-            });
-
-            setTimeout(() => {
-                startConfetti();
-            }, 800);
+        function updateProgress() {
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
         }
 
-
-        // --- Confetti Logic ---
-        const canvas = document.getElementById('confetti-canvas');
-        const ctx = canvas.getContext('2d');
-        let confettiParticles = [];
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        function startConfetti() {
-            const confettiColors = ['#FFD700', '#fb6f92', '#ff8fab', '#ffffff'];
+        function changeSlide(direction) {
+            const next = currentSlide + direction;
             
-            for (let i = 0; i < 200; i++) {
-                confettiParticles.push({
-                    x: window.innerWidth / 2, 
-                    y: window.innerHeight / 2,
-                    w: Math.random() * 8 + 4,
-                    h: Math.random() * 8 + 4,
-                    color: confettiColors[Math.floor(Math.random() * confettiColors.length)],
-                    vx: (Math.random() - 0.5) * 25, 
-                    vy: (Math.random() - 0.5) * 25 - 5, 
-                    gravity: 0.25,
-                    drag: 0.95,
-                    rotation: Math.random() * 360,
-                    rotationSpeed: (Math.random() - 0.5) * 10
-                });
-            }
-            animateConfetti();
-        }
+            if (next >= 0 && next < totalSlides) {
+                // Current slide animation out
+                const currentEl = document.getElementById(`slide-${currentSlide}`);
+                currentEl.classList.remove('active');
+                if (direction > 0) currentEl.classList.add('prev');
 
-        function animateConfetti() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            confettiParticles.forEach((p, index) => {
-                p.x += p.vx;
-                p.y += p.vy;
-                p.vy += p.gravity;
-                p.vx *= p.drag;
-                p.vy *= p.drag;
-                p.rotation += p.rotationSpeed;
+                // Update index
+                currentSlide = next;
 
-                ctx.save();
-                ctx.translate(p.x, p.y);
-                ctx.rotate(p.rotation * Math.PI / 180);
-                ctx.fillStyle = p.color;
-                ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
-                ctx.restore();
+                // Next slide animation in
+                const nextEl = document.getElementById(`slide-${currentSlide}`);
+                nextEl.classList.remove('prev');
+                nextEl.classList.add('active');
 
-                if (p.y > canvas.height) {
-                    confettiParticles.splice(index, 1);
-                }
-            });
-
-            if (confettiParticles.length > 0) {
-                requestAnimationFrame(animateConfetti);
+                updateProgress();
             }
         }
+
+        // Keyboard Navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                changeSlide(1);
+            } else if (e.key === 'ArrowLeft') {
+                changeSlide(-1);
+            }
+        });
+
+        // Initialize
+        setupChaos();
+        updateProgress();
 
     </script>
 </body>
