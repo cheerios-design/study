@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atlas Stüdyo - İnteraktif Sunum</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255, 107, 53, 0.03) 35px, rgba(255, 107, 53, 0.03) 70px);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            background: radial-gradient(circle at top right, #ff6b35 0%, transparent 60%), 
+                        radial-gradient(circle at bottom left, #1a1a1a 0%, transparent 60%),
+                        linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            z-index: 2;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateX(0);
+            z-index: 10;
+        }
+
+        .slide.prev {
+            transform: translateX(-100%);
+        }
+
+        .slide-content {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 60px;
+            max-width: 1300px;
+            width: 92%;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+            animation: slideIn 0.8s ease-out;
+            max-height: 88vh;
+            overflow-y: auto;
+            border: 3px solid #ff6b35;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            color: #ff6b35;
+            font-size: 3.5em;
+            margin-bottom: 25px;
+            text-align: center;
+            animation: fadeInDown 1s ease-out;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        h2 {
+            color: #1a1a1a;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-align: center;
+            border-bottom: 4px solid #ff6b35;
+            padding-bottom: 20px;
+            font-weight: 700;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: #1a1a1a;
+        }
+
+        h3 {
+            color: #ff6b35;
+            font-size: 2em;
+            margin: 30px 0 20px 0;
+            font-weight: 700;
+        }
+
+        p, li {
+            font-size: 1.2em;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .subtitle {
+            color: #1a1a1a;
+            font-size: 1.6em;
+            text-align: center;
+            margin-bottom: 35px;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            background: #ff6b35;
+            border: 2px solid #ff6b35;
+            padding: 16px 36px;
+            font-size: 1.1em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.3);
+            font-weight: 700;
+            color: white;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.5);
+            background: #1a1a1a;
+            border-color: #1a1a1a;
+            color: white;
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: #ff6b35;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 700;
+            color: white;
+            z-index: 1000;
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+            border: 2px solid white;
+        }
+
+        .disciplines-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .discipline-card {
+            background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%);
+            color: white;
+            padding: 32px;
+            border-radius: 20px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            border: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .discipline-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .discipline-card:hover {
+            transform: translateY(-15px) scale(1.08);
+            box-shadow: 0 20px 40px rgba(255, 107, 53, 0.4);
+            border-color: #1a1a1a;
+        }
+
+        .discipline-card:hover::before {
+            opacity: 1;
+        }
+
+        .discipline-card > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .discipline-card h4 {
+            font-size: 1.7em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .discipline-card p {
+            font-size: 1em;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 10px;
+        }
+
+        .budget-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .budget-table th {
+            background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%);
+            color: white;
+            padding: 18px;
+            text-align: left;
+            font-size: 1.3em;
+            font-weight: 700;
+        }
+
+        .budget-table td {
+            padding: 18px;
+            border-bottom: 2px solid #f0f0f0;
+            font-size: 1.15em;
+        }
+
+        .budget-table tr:hover {
+            background: #fff5f2;
+            transform: scale(1.01);
+            transition: all 0.3s;
+        }
+
+        .budget-table tr:last-child td {
+            font-weight: 800;
+            background: #fff5f2;
+            font-size: 1.4em;
+            color: #ff6b35;
+            border-top: 3px solid #ff6b35;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: white;
+            padding: 35px;
+            border-radius: 20px;
+            margin: 25px 0;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+            border: 3px solid #ff6b35;
+            position: relative;
+        }
+
+        .highlight-box::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            background: linear-gradient(135deg, #ff6b35, #ff8c42);
+            border-radius: 20px;
+            z-index: -1;
+            opacity: 0.5;
+            filter: blur(10px);
+        }
+
+        .timeline {
+            position: relative;
+            padding: 30px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            padding: 25px;
+            background: linear-gradient(90deg, #fff5f2 0%, #ffffff 100%);
+            border-radius: 15px;
+            border-left: 6px solid #ff6b35;
+            transition: all 0.4s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .timeline-item:hover {
+            transform: translateX(15px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.2);
+            border-left-width: 8px;
+        }
+
+        .timeline-week {
+            font-weight: 800;
+            color: #ff6b35;
+            font-size: 1.4em;
+            min-width: 180px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b35 0%, #ff8c42 100%);
+            transition: width 1s ease-out;
+            box-shadow: 0 2px 10px rgba(255, 107, 53, 0.5);
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 15px;
+        }
+
+        li:before {
+            content: "●";
+            position: absolute;
+            left: 0;
+            color: #ff6b35;
+            font-size: 1.2em;
+            font-weight: 900;
+        }
+
+        .logo-text {
+            font-size: 5em;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ff6b35 0%, #1a1a1a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            margin: 30px 0;
+            animation: pulse 2s infinite;
+            letter-spacing: -2px;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .emoji {
+            font-size: 2.5em;
+            margin-right: 15px;
+            display: inline-block;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2));
+        }
+
+        /* Professional Badge Style */
+        .badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9em;
+            margin: 5px;
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+        }
+
+        /* Icon Box Style */
+        .icon-box {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #ff6b35, #ff8c42);
+            border-radius: 18px;
+            margin-bottom: 15px;
+            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
+            font-size: 2em;
+        }
+
+        .discipline-card .icon-box {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Stats Box */
+        .stats-box {
+            background: linear-gradient(135deg, #fff5f2, #ffffff);
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px solid #ff6b35;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .stats-number {
+            font-size: 3em;
+            font-weight: 900;
+            color: #ff6b35;
+            line-height: 1;
+        }
+
+        .stats-label {
+            font-size: 1.1em;
+            color: #1a1a1a;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        /* Custom Scrollbar */
+        .slide-content::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .slide-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .slide-content::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #ff6b35, #ff8c42);
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .slide-content::-webkit-scrollbar-thumb:hover {
+            background: #1a1a1a;
+        }
+
+        /* Feature List Styling */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 20px;
+            background: linear-gradient(135deg, #fff5f2, #ffffff);
+            border-radius: 12px;
+            border-left: 4px solid #ff6b35;
+            transition: all 0.3s;
+        }
+
+        .feature-item:hover {
+            transform: translateX(8px);
+            box-shadow: 0 6px 18px rgba(255, 107, 53, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 2em;
+            margin-right: 15px;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.1));
+        }
+
+        @media (max-width: 768px) {
+            .slide-content {
+                padding: 30px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+            h2 {
+                font-size: 1.8em;
+            }
+            p, li {
+                font-size: 1em;
+            }
+            .disciplines-grid {
+                grid-template-columns: 1fr;
+            }
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+            .nav-btn {
+                padding: 12px 24px;
+                font-size: 1em;
+            }
+        }
+
+        /* Page Load Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        body {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        /* Button Click Effect */
+        .nav-btn:active {
+            transform: translateY(-2px) scale(0.98);
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <div class="slide-counter" id="slideCounter">1 / 9</div>
+
+        <!-- Slide 1: Title -->
+        <div class="slide active" data-slide="1">
+            <div class="slide-content">
+                <div class="logo-text">📽️ ATLAS STÜDYO</div>
+                <h1>Bolu Modeli</h1>
+                <p class="subtitle">"Yetenek Odaklı Yeni Nesil Gençlik Platformu ve Yumuşak Güç Stratejisi"</p>
+                <div class="highlight-box" style="margin-top: 40px;">
+                    <h3 style="color: white; text-align: center; margin: 0; font-size: 2.2em;">🚀 Geleceği Şekillendiren Gençlik Hareketi</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Project Overview -->
+        <div class="slide" data-slide="2">
+            <div class="slide-content">
+                <h2>📋 Proje Özeti ve Vizyon</h2>
+                <p><strong>Atlas Stüdyo,</strong> Bolu gençliğinin potansiyelini açığa çıkarmayı hedefleyen, disiplinlerarası bir üretim ve kariyer merkezidir.</p>
+                
+                <div class="highlight-box">
+                    <h3 style="color: white;"><span class="emoji">🎯</span>Temel Hedef</h3>
+                    <p style="color: white; margin: 0;">AK Parti Gençlik Kolları'nın toplumun her kesimine dokunma kapasitesini artırmak, partimize mesafeli olan genç kitleyle "yetenek ve gelişim" paydasında buluşarak organik bir bağ kurmak.</p>
+                </div>
+
+                <h3>💡 Odak Alanlarımız</h3>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <span class="feature-icon">💻</span>
+                        <p style="margin: 0;">Yazılımdan yabancı dile geniş eğitim yelpazesi</p>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🎬</span>
+                        <p style="margin: 0;">Tasarımdan senaryo yazımına yaratıcı atölyeler</p>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🏭</span>
+                        <p style="margin: 0;">Nitelikli üretim odaklı ekosistem</p>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🎯</span>
+                        <p style="margin: 0;">Geleneksel siyasi faaliyetlerin ötesinde profesyonel yaklaşım</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Strategic Communication -->
+        <div class="slide" data-slide="3">
+            <div class="slide-content">
+                <h2>🎨 Stratejik İletişim: "Bağımsız Marka" Modeli</h2>
+                
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <span class="feature-icon">🌟</span>
+                        <div>
+                            <h3 style="color: #ff6b35; margin: 0 0 10px 0; font-size: 1.5em;">Dış Kimlik</h3>
+                            <p style="margin: 0;">Marka tamamen siyaset üstü, inovatif ve modern bir görsel dil kullanacaktır. Gençler burayı prestijli bir <strong>"Akademi/Stüdyo"</strong> olarak görecektir.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-item">
+                        <span class="feature-icon">💬</span>
+                        <div>
+                            <h3 style="color: #ff6b35; margin: 0 0 10px 0; font-size: 1.5em;">Algı Yönetimi</h3>
+                            <p style="margin: 0;">Partimizin gençliğe verdiği karşılıksız desteğin en büyük kanıtı, onlara sağlanan bu profesyonel imkanlar olacaktır.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="highlight-box" style="margin-top: 30px;">
+                    <h3 style="color: white; margin: 0 0 15px 0;"><span class="emoji">📊</span>İç Raporlama</h3>
+                    <p style="color: white; margin: 0; font-size: 1.2em;">Tüm süreçler, katılım istatistikleri ve gelişim raporları haftalık olarak İl Gençlik Kolları Başkanlığı'na sunulacaktır.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: R&D Integration -->
+        <div class="slide" data-slide="4">
+            <div class="slide-content">
+                <h2>🔬 Ar-Ge Başkanlığı Entegrasyonu</h2>
+                <p>Gençlik Kolları Ar-Ge Başkanlığı, projenin stratejik beyni olarak şu görevleri üstlenecektir:</p>
+
+                <div class="disciplines-grid" style="grid-template-columns: repeat(3, 1fr);">
+                    <div class="discipline-card">
+                        <div class="icon-box">🔍</div>
+                        <h4>Eksiklik Analizi</h4>
+                        <p>Bolu'daki öğrencilerin iş dünyasına girişte en çok zorlandığı alanları saptamak</p>
+                    </div>
+                    <div class="discipline-card">
+                        <div class="icon-box">📚</div>
+                        <h4>Müfredat Denetimi</h4>
+                        <p>Eğitimlerin güncel teknolojik trendlere (Yapay Zeka, Modern Frameworkler) uygunluğunu sağlamak</p>
+                    </div>
+                    <div class="discipline-card">
+                        <div class="icon-box">📈</div>
+                        <h4>Veri Odaklı Takip</h4>
+                        <p>Katılımcıların gelişimini ve projenin çarpan etkisini raporlamak</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Disciplines -->
+        <div class="slide" data-slide="5">
+            <div class="slide-content">
+                <h2>🎓 Atlas Stüdyo Disiplinleri (Alt Markalar)</h2>
+                
+                <div class="disciplines-grid">
+                    <div class="discipline-card">
+                        <div class="icon-box">💻</div>
+                        <h4>Atlas Code</h4>
+                        <p><strong>Kapsam:</strong> Yazılım, Web Tasarım (React, Next.js), Mobil Uygulama</p>
+                        <p><strong>Hedef:</strong> Genç yazılımcı ağı ve yerli proje üretimi</p>
+                    </div>
+                    
+                    <div class="discipline-card">
+                        <div class="icon-box">🎨</div>
+                        <h4>Atlas Design</h4>
+                        <p><strong>Kapsam:</strong> Grafik Tasarım, UI/UX, Kurumsal Kimlik</p>
+                        <p><strong>Hedef:</strong> Adobe yetkinliğine sahip profesyonel tasarımcılar</p>
+                    </div>
+                    
+                    <div class="discipline-card">
+                        <div class="icon-box">🌍</div>
+                        <h4>Atlas Global</h4>
+                        <p><strong>Kapsam:</strong> TOEFL, IELTS Hazırlık, Akademik İngilizce</p>
+                        <p><strong>Hedef:</strong> Yurt dışı/Akademik hedefi olan nitelikli kitle</p>
+                    </div>
+                    
+                    <div class="discipline-card">
+                        <div class="icon-box">🎬</div>
+                        <h4>Atlas Vision</h4>
+                        <p><strong>Kapsam:</strong> Fotoğrafçılık, Kısa Film, Video Kurgu</p>
+                        <p><strong>Hedef:</strong> Sosyal medya içerik üreticileri ve yönetmenler</p>
+                    </div>
+                    
+                    <div class="discipline-card">
+                        <div class="icon-box">✍️</div>
+                        <h4>Atlas Pen</h4>
+                        <p><strong>Kapsam:</strong> Yaratıcı Yazarlık, Metin Yazarlığı, İçerik Stratejisi</p>
+                        <p><strong>Hedef:</strong> Yazılı üretim ve fikir disiplini</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Infrastructure -->
+        <div class="slide" data-slide="6">
+            <div class="slide-content">
+                <h2>🏢 Mekân ve Altyapı İhtiyaçları</h2>
+                <p>Atlas Stüdyo, bir <strong>"Eğitim Laboratuvarı"</strong> ve <strong>"Ortak Çalışma Alanı"</strong> (Co-working Space) konseptinde olmalıdır:</p>
+
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <span class="feature-icon">💻</span>
+                        <div>
+                            <h4 style="color: #ff6b35; margin: 0 0 10px 0;">Donanım</h4>
+                            <p style="margin: 0;">Yüksek performanslı iş istasyonları (Render ve kodlama kapasiteli)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <span class="feature-icon">🖥️</span>
+                        <div>
+                            <h4 style="color: #ff6b35; margin: 0 0 10px 0;">Yazılım</h4>
+                            <p style="margin: 0;">Profesyonel üretim için gerekli lisanslı programlar (Adobe Creative Cloud vb.)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <span class="feature-icon">🎨</span>
+                        <div>
+                            <h4 style="color: #ff6b35; margin: 0 0 10px 0;">Mekan</h4>
+                            <p style="margin: 0;">Modern, minimalist, gençlerin içinde vakit geçirmekten keyif alacağı bir ofis tasarımı</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <span class="feature-icon">☕</span>
+                        <div>
+                            <h4 style="color: #ff6b35; margin: 0 0 10px 0;">İkram</h4>
+                            <p style="margin: 0;">Atölye çalışmalarını destekleyecek self-servis bir çay/kahve köşesi (dinlenme alanı)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Budget -->
+        <div class="slide" data-slide="7">
+            <div class="slide-content">
+                <h2>💰 Yıllık Tahmini Operasyonel Bütçe (2026)</h2>
+                
+                <table class="budget-table">
+                    <thead>
+                        <tr>
+                            <th>📋 Kalem</th>
+                            <th>📝 Açıklama</th>
+                            <th style="text-align: right;">💰 Yıllık Tutar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>💻 Yazılım Lisansları</strong></td>
+                            <td>Adobe Creative Cloud (Tüm Uygulamalar - Yıllık)</td>
+                            <td style="text-align: right; font-weight: 700;">₺18.662,40</td>
+                        </tr>
+                        <tr>
+                            <td><strong>🌐 Teknik Altyapı</strong></td>
+                            <td>Fiber İnternet, Hosting ve Bulut Depolama servisleri</td>
+                            <td style="text-align: right; font-weight: 700;">₺20.000,00</td>
+                        </tr>
+                        <tr>
+                            <td><strong>🌍 Global Eğitim Setleri</strong></td>
+                            <td>TOEFL/IELTS Deneme sınavları ve materyal desteği</td>
+                            <td style="text-align: right; font-weight: 700;">₺25.000,00</td>
+                        </tr>
+                        <tr>
+                            <td><strong>👨‍🏫 Eğitmen & Workshop</strong></td>
+                            <td>Alanında uzman misafir eğitmenlerin koordinasyonu</td>
+                            <td style="text-align: right; font-weight: 700;">₺60.000,00</td>
+                        </tr>
+                        <tr>
+                            <td><strong>📱 Pazarlama & Sosyal Medya</strong></td>
+                            <td>Dijital reklam yönetimi ve içerik üretimi</td>
+                            <td style="text-align: right; font-weight: 700;">₺30.000,00</td>
+                        </tr>
+                        <tr>
+                            <td><strong>🏢 Genel Operasyon</strong></td>
+                            <td>Materyaller, ofis giderleri ve ikramlar</td>
+                            <td style="text-align: right; font-weight: 700;">₺35.000,00</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><strong>💎 TOPLAM</strong> - Yıllık Sürdürülebilirlik Bütçesi</td>
+                            <td style="text-align: right;"><strong>₺188.662,40</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Slide 8: Roadmap -->
+        <div class="slide" data-slide="8">
+            <div class="slide-content">
+                <h2>🗓️ Uygulama Adımları (Roadmap)</h2>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-week">📅 1-2. Hafta</div>
+                        <div>
+                            <h4 style="color: #1a1a1a; margin: 0 0 8px 0;">Kuruluş Aşaması</h4>
+                            <p style="margin: 0;">Kurumsal kimlik (Logo, Renk Paleti) ve Ar-Ge ile müfredatın netleşmesi</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-week">📅 3. Hafta</div>
+                        <div>
+                            <h4 style="color: #1a1a1a; margin: 0 0 8px 0;">Lansман</h4>
+                            <p style="margin: 0;">Sosyal medya lansmanı ve "Atlas Code/Design" için ön başvuruların toplanması</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-week">📅 4. Hafta</div>
+                        <div>
+                            <h4 style="color: #1a1a1a; margin: 0 0 8px 0;">Başlangıç</h4>
+                            <p style="margin: 0;">İlk workshop serisinin başlaması ve İl Başkanlığı'na ilk performans raporunun sunulması</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="progress-bar" style="margin-top: 40px;">
+                    <div class="progress-fill" style="width: 75%;"></div>
+                </div>
+                <p style="text-align: center; color: #ff6b35; font-weight: 800; margin-top: 15px; font-size: 1.3em;">4 Haftalık Hazırlık Süreci</p>
+            </div>
+        </div>
+
+        <!-- Slide 9: Conclusion -->
+        <div class="slide" data-slide="9">
+            <div class="slide-content">
+                <h2>🎯 Sonuç ve İkna</h2>
+                
+                <div class="highlight-box" style="font-size: 1.1em; line-height: 2;">
+                    <p style="color: white;"><strong>Atlas Stüdyo,</strong> AK Parti'nin gençliğe yönelik "Klasik Siyaset" duvarını yıkan en güçlü hamlesidir.</p>
+                </div>
+
+                <h3 style="margin-top: 30px;">✨ Neden Atlas Stüdyo?</h3>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <span class="feature-icon">🎨</span>
+                        <p style="margin: 0;"><strong>Broşür değil, Adobe lisansı</strong> sunuyoruz</p>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">💻</span>
+                        <p style="margin: 0;"><strong>Yazılım eğitimi</strong> ve gerçek beceriler kazandırıyoruz</p>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🌍</span>
+                        <p style="margin: 0;"><strong>TOEFL hazırlık desteği</strong> ile global fırsatlar açıyoruz</p>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">❤️</span>
+                        <p style="margin: 0;">Gençlerin hayatına <strong>gerçek anlamda dokunuyoruz</strong></p>
+                    </div>
+                </div>
+
+                <div class="highlight-box" style="margin-top: 30px; text-align: center;">
+                    <h3 style="color: white; font-size: 2.5em; margin: 0;">🚀 "Üreten Gençliğin" Merkez Üssü</h3>
+                    <p style="color: white; margin-top: 20px; font-size: 1.4em; font-weight: 600;">Bolu'da Bir Marka Haline Geleceğiz!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">◀ Önceki</button>
+            <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Sonraki ▶</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 9;
+
+        function updateSlideCounter() {
+            document.getElementById('slideCounter').textContent = `${currentSlide} / ${totalSlides}`;
+        }
+
+        function updateNavButtons() {
+            document.getElementById('prevBtn').disabled = currentSlide === 1;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+        }
+
+        function changeSlide(direction) {
+            const slides = document.querySelectorAll('.slide');
+            const current = document.querySelector('.slide.active');
+            
+            current.classList.remove('active');
+            if (direction === -1) {
+                current.classList.add('prev');
+            }
+            
+            currentSlide += direction;
+            
+            if (currentSlide < 1) currentSlide = 1;
+            if (currentSlide > totalSlides) currentSlide = totalSlides;
+            
+            slides.forEach(slide => {
+                slide.classList.remove('active', 'prev');
+            });
+            
+            const nextSlide = document.querySelector(`.slide[data-slide="${currentSlide}"]`);
+            nextSlide.classList.add('active');
+            
+            updateSlideCounter();
+            updateNavButtons();
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' && currentSlide < totalSlides) {
+                changeSlide(1);
+            } else if (e.key === 'ArrowLeft' && currentSlide > 1) {
+                changeSlide(-1);
+            }
+        });
+
+        // Touch support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50 && currentSlide < totalSlides) {
+                changeSlide(1);
+            }
+            if (touchEndX > touchStartX + 50 && currentSlide > 1) {
+                changeSlide(-1);
+            }
+        }
+
+        // Initialize
+        updateSlideCounter();
+        updateNavButtons();
+
+        // Add hover effect to discipline cards
+        document.querySelectorAll('.discipline-card').forEach(card => {
+            card.addEventListener('click', function() {
+                this.style.animation = 'pulse 0.5s';
+                setTimeout(() => {
+                    this.style.animation = '';
+                }, 500);
+            });
+        });
+    </script>
+</body>
+</html>
