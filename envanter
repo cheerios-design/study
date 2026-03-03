@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proje Envanter - TÜBİTAK Sunumu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary-bg: #0f172a;
+            --accent-green: #10b981;
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #e2e8f0;
+            display: grid;
+            gap: 20px;
+            grid-template-columns: 1fr;
+            place-items: center;
+            padding: 40px 0;
+            font-family: 'Urbanist', sans-serif;
+        }
+
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            background-color: var(--primary-bg);
+            color: var(--text-light);
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            padding: 60px;
+            border-radius: 8px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .slide-container::before {
+            content: '';
+            position: absolute;
+            top: -10%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        .slide-container::after {
+            content: '';
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            right: 30px;
+            height: 1px;
+            background: var(--border-color);
+            z-index: 0;
+        }
+
+        h1, h2, h3 {
+            font-weight: 700;
+            margin: 0;
+            z-index: 1;
+        }
+
+        .slide-title {
+            font-size: 48px;
+            margin-bottom: 40px;
+            color: var(--text-light);
+            border-left: 6px solid var(--accent-green);
+            padding-left: 20px;
+            max-width: 900px;
+        }
+
+        .slide-title span {
+            color: var(--accent-green);
+        }
+
+        p, li {
+            font-size: 20px;
+            line-height: 1.5;
+            color: var(--text-muted);
+            z-index: 1;
+        }
+
+        .content-area {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            z-index: 1;
+        }
+
+        .title-layout {
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .title-layout h1 {
+            font-size: 82px;
+            margin-bottom: 20px;
+        }
+
+        .title-layout .subtitle {
+            font-size: 28px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .two-column {
+            display: flex;
+            gap: 50px;
+            height: 100%;
+        }
+
+        .col { flex: 1; }
+
+        .image-wrapper {
+            width: 100%;
+            height: 400px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .tiled-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .tile {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .tile i {
+            font-size: 40px;
+            color: var(--accent-green);
+        }
+
+        .tile h3 {
+            font-size: 24px;
+            color: var(--text-light);
+        }
+
+        .tile p {
+            font-size: 16px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th {
+            background-color: var(--card-bg);
+            text-align: left;
+            padding: 20px;
+            font-size: 18px;
+            border-bottom: 2px solid var(--accent-green);
+        }
+
+        td {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 18px;
+        }
+
+        .chart-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .bar-row {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .bar-label { width: 250px; text-align: right; }
+
+        .bar-bg {
+            flex-grow: 1;
+            height: 30px;
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-green), #34d399);
+            border-radius: 15px;
+        }
+
+        .timeline {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            padding-top: 40px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 50px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--border-color);
+        }
+
+        .timeline-step {
+            width: 20%;
+            text-align: center;
+            position: relative;
+        }
+
+        .timeline-dot {
+            width: 24px;
+            height: 24px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .bleed-image-layout {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            padding: 0;
+            align-items: start;
+        }
+
+        .bleed-image-layout .text-side {
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 720px;
+        }
+
+        .bleed-image-layout img {
+            width: 100%;
+            height: 720px;
+            object-fit: cover;
+        }
+
+        .bullet-list {
+            list-style: none;
+        }
+
+        .bullet-list li {
+            margin-bottom: 15px;
+            position: relative;
+            padding-left: 35px;
+        }
+
+        .bullet-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent-green);
+            font-weight: bold;
+        }
+
+        .footer-note {
+            position: absolute;
+            bottom: 15px;
+            right: 30px;
+            font-size: 14px;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- SLIDE 1: KAPAK -->
+<div class="slide-container" id="slide1">
+    <div class="title-layout content-area">
+        <h1>PROJE <span>ENVANTER</span></h1>
+        <p class="subtitle">Tedarik Zinciri Dayanıklılığı ve İthal İkamesi İçin Milli B2B Satın Alma Ekosistemi.</p>
+        <p style="margin-top: 40px; font-weight: 500; color: var(--accent-green);">Stratejik Hizalanma: Türkiye Yüzyılı (2024-2028)</p>
+    </div>
+    <div class="footer-note">GİZLİ | TÜBİTAK 1812 PROJE ÖNERİSİ</div>
+</div>
+
+<!-- SLIDE 2: PROBLEM -->
+<div class="slide-container" id="slide2">
+    <h2 class="slide-title">Yerli Ticarette <span>"Güven Paradoksu"</span></h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div class="col">
+                <p>Güçlü bir üretim tabanına rağmen, Türkiye'deki B2B tedarik süreçleri şu nedenlerle verimsizdir:</p>
+                <ul class="bullet-list" style="margin-top: 30px;">
+                    <li>Yabancı SaaS ve danışmanlık oyuncularına yüksek bağımlılık.</li>
+                    <li>Şeffaf olmayan tedarikçi verileri ve sahte yapay zeka sinyalleri.</li>
+                    <li>2026 Mevzuat değişiklikleri (GİB, KVKK ve Gümrük tarifeleri).</li>
+                    <li>Parçalanmış yapı: KOBİ'lerin büyük holdinglerin kapısını çalamaması.</li>
+                </ul>
+            </div>
+            <div class="col">
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=1000" alt="Tedarik zinciri veri görselleştirmesi">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 3: ÇÖZÜM -->
+<div class="slide-container" id="slide3">
+    <h2 class="slide-title"><span>Güven Döngüsü</span> Stratejisi</h2>
+    <div class="content-area">
+        <div class="tiled-content">
+            <div class="tile">
+                <i class="fa-solid fa-link"></i>
+                <h3>Yerli Bağlantı</h3>
+                <p>Yerelleştirilmiş Graphite benzeri ağ. Bir kez sisteme girin, doğrulanmış kimlik bilgilerinizi tüm Türkiye pazarıyla paylaşın.</p>
+            </div>
+            <div class="tile">
+                <i class="fa-solid fa-shield-halved"></i>
+                <h3>Doğrulanabilir Veri</h3>
+                <p>GİB ve MERSİS ile doğrudan API entegrasyonu. Manuel hataları sıfırlayan ve vergi uyumunu kanıtlayan yapı.</p>
+            </div>
+            <div class="tile">
+                <i class="fa-solid fa-money-bill-trend-up"></i>
+                <h3>Servet Koruma</h3>
+                <p>Döviz çıkışını azaltmak için ithal ürünlerin yerli alternatiflerini sistematik olarak belirleme (İthal İkamesi).</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 4: MEVZUAT UYUMU -->
+<div class="slide-container" id="slide4">
+    <h2 class="slide-title">Teknik <span>Egemenlik</span> ve KVKK</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div class="col">
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1000" alt="Siber güvenlik illüstrasyonu">
+                </div>
+            </div>
+            <div class="col">
+                <h3>Türk Hukuku İçin İnşa Edildi</h3>
+                <ul class="bullet-list" style="margin-top: 20px;">
+                    <li><strong>2026 KVKK Hazır:</strong> Zero-Trust mimarisi ile %100 yerli veri barındırma.</li>
+                    <li><strong>GİB Entegrasyonu:</strong> UBL-TR 1.2.1 XML fatura denetimi ile otomatize edilmiş süreçler.</li>
+                    <li><strong>Nitelikli İmza:</strong> Mali Mühür ve e-İmza aracılığıyla HUKUKİ bağlayıcılığı olan dijital sözleşmeler.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 5: VARLIK TABANI -->
+<div class="slide-container bleed-image-layout" id="slide5">
+    <div class="text-side">
+        <h2 class="slide-title">Milli <span>Varlık</span> Tabanı</h2>
+        <p>Envanter sadece bir yazılım değildir; Türkiye'nin 3.3 milyon KOBİ'sini "Büyük Ölçekli" şirketlere bağlayan dijital bir altyapıdır.</p>
+        <p style="margin-top: 20px;">2027 yılına kadar Envanter, halihazırda yurt dışından temin edilen imalat tedarikinin %15'ini yerelleştirmeyi hedeflemektedir.</p>
+    </div>
+    <div>
+        <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=1000" alt="Türkiye sanayi bölgesi görünümü">
+    </div>
+</div>
+
+<!-- SLIDE 6: MODÜLLER -->
+<div class="slide-container" id="slide6">
+    <h2 class="slide-title">Otomatize <span>Tedarik</span> Mantığı</h2>
+    <div class="content-area">
+        <div class="tiled-content">
+            <div class="tile">
+                <i class="fa-solid fa-robot"></i>
+                <h3>YZ Denetimi</h3>
+                <p>Tedarik döngülerindeki anomalileri, sistemsel arızadan 90-180 gün önce tespit eden yapay zeka.</p>
+            </div>
+            <div class="tile">
+                <i class="fa-solid fa-chart-line"></i>
+                <h3>Risk Karnesi</h3>
+                <p>Finansal sağlık, teslimat verileri ve KVKK olgunluğuna dayalı gerçek zamanlı puanlama (0-100).</p>
+            </div>
+            <div class="tile">
+                <i class="fa-solid fa-file-contract"></i>
+                <h3>Sözleşme Motoru</h3>
+                <p>Çerçeve sözleşmelerin, risk anketlerinin ve Türkiye standartlarındaki kontratların uçtan uca yönetimi.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 7: EKONOMİK ETKİ -->
+<div class="slide-container" id="slide7">
+    <h2 class="slide-title">Hedef: <span>İthal İkamesi</span></h2>
+    <div class="content-area">
+        <div class="chart-container">
+            <div class="bar-row">
+                <div class="bar-label">Döviz Sızıntısı</div>
+                <div class="bar-bg"><div class="bar-fill" style="width: 85%;"></div></div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-label">Yerli Farkındalık Boşluğu</div>
+                <div class="bar-bg"><div class="bar-fill" style="width: 60%;"></div></div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-label">Envanter Hedefi (2. Yıl)</div>
+                <div class="bar-bg"><div class="bar-fill" style="width: 40%; background: #fff;"></div></div>
+            </div>
+        </div>
+        <p style="text-align: center; margin-top: 30px;">Yerli tedarik farkındalığındaki her %1'lik artış, milli servette tahmini 1.2 Milyar TL'lik bir koruma sağlar.</p>
+    </div>
+</div>
+
+<!-- SLIDE 8: HİBE STRATEJİSİ -->
+<div class="slide-container" id="slide8">
+    <h2 class="slide-title">Stratejik <span>Fonlama</span> Sütunları</h2>
+    <div class="content-area">
+        <div class="table-layout">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Hibe Türü</th>
+                        <th>Üst Limit</th>
+                        <th>Hedef Hizalanması</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>TÜBİTAK 1812 (BiGG)</strong></td>
+                        <td>900.000 TL</td>
+                        <td>Ar-Ge Doğrulama ve YZ Model Eğitimi</td>
+                    </tr>
+                    <tr>
+                        <td><strong>KOSGEB Kapasite Gel.</strong></td>
+                        <td>20.000.000 TL</td>
+                        <td>Tedarik Zinciri İlişkilerinin Güçlendirilmesi</td>
+                    </tr>
+                    <tr>
+                        <td><strong>KOSGEB Genç Girişimci</strong></td>
+                        <td>1.500.000 TL</td>
+                        <td>Geri Ödemeli Büyüme Desteği (%0 Faiz)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 9: YOL HARİTASI -->
+<div class="slide-container" id="slide9">
+    <h2 class="slide-title">Proje <span>Yol Haritası</span> 2026-2027</h2>
+    <div class="content-area">
+        <div class="timeline">
+            <div class="timeline-step">
+                <div class="timeline-dot"></div>
+                <h3>2026 Ç1</h3>
+                <p>Sanal Prototip ve RAT Testleri (MERSİS API)</p>
+            </div>
+            <div class="timeline-step">
+                <div class="timeline-dot"></div>
+                <h3>2026 Ç2</h3>
+                <p>MVP Lansmanı (8 Beta Holding Müşterisi)</p>
+            </div>
+            <div class="timeline-step">
+                <div class="timeline-dot"></div>
+                <h3>2026 Ç4</h3>
+                <p>MSP Dağıtımı ve GİB Otomasyonu</p>
+            </div>
+            <div class="timeline-step">
+                <div class="timeline-dot" style="background: #fff;"></div>
+                <h3>2027 Ç2</h3>
+                <p>Tam Yerli Döngü Ölçeklendirme</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 10: KURUCU AVANTAJI -->
+<div class="slide-container" id="slide10">
+    <h2 class="slide-title">Neden <span>Şimdi?</span> Stratejik Avantaj</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div class="col">
+                <h3>Yönetici Temeli</h3>
+                <ul class="bullet-list" style="margin-top: 20px;">
+                    <li>Türk Vergi Hukuku ve Uyum Süreçlerinde Uzmanlık.</li>
+                    <li>"Türkiye Yüzyılı" hedefleriyle tam doğrudan uyum.</li>
+                    <li>Hızlı Onboarding için "Büyük Ölçekli" şirketlere erişim.</li>
+                    <li>Egemenlik odaklı ve yerli teknik mimari.</li>
+                </ul>
+            </div>
+            <div class="col">
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&q=80&w=1000" alt="Profesyonel tokalaşma ve İstanbul silüeti">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 11: VİZYON -->
+<div class="slide-container" id="slide11">
+    <div class="title-layout content-area" style="text-align: center;">
+        <i class="fa-solid fa-quote-left" style="font-size: 60px; color: var(--accent-green); margin-bottom: 20px;"></i>
+        <h2 style="font-size: 50px; font-weight: 300; font-style: italic;">
+            "Tek başına sabır ve azim her şeye kadirdir. Envanter, Türkiye ekonomisinin azmidir."
+        </h2>
+        <p style="margin-top: 20px; font-weight: 700; color: var(--accent-green);">— Proje Vizyon Bildirisi</p>
+    </div>
+</div>
+
+<!-- SLIDE 12: SORU-CEVAP -->
+<div class="slide-container" id="slide12">
+    <div class="title-layout content-area">
+        <h1 style="color: var(--accent-green);">Tartışma ve Sonraki Adımlar</h1>
+        <p class="subtitle">Türkiye'nin dijital tedarik zinciri egemenliğini birlikte inşa edelim.</p>
+        <div style="margin-top: 40px; display: flex; gap: 40px; justify-content: center;">
+            <div style="text-align: left;">
+                <p style="font-weight: bold; color: #fff;">Hibe Strateji Lideri</p>
+                <p>TÜBİTAK 1812 Başvuru Sahibi</p>
+            </div>
+            <div style="text-align: left;">
+                <p style="font-weight: bold; color: #fff;">Politika Uyumu</p>
+                <p>Gençlik Kolları Strateji Lideri</p>
+            </div>
+        </div>
+    </div>
+    <div class="footer-note">PROJE ENVANTER | 2026 MİLLİ AR-GE ÖNERİSİ</div>
+</div>
+
+</body>
+</html>
