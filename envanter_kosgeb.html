@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Envanter - KOSGEB Kapasite Geliştirme Sunumu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary-bg: #0f172a;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--primary-bg);
+            color: var(--text-light);
+            font-family: 'Urbanist', sans-serif;
+            overflow: hidden; /* Scroll engellendi */
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .presentation-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 60px;
+            display: none; /* Başlangıçta gizli */
+            flex-direction: column;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+        }
+
+        .slide.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .slide-title {
+            font-size: 48px;
+            margin-bottom: 30px;
+            color: var(--text-light);
+            border-left: 6px solid var(--accent-blue);
+            padding-left: 20px;
+        }
+
+        .slide-title span { color: var(--accent-blue); }
+
+        .content-area {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .two-column {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .col { flex: 1; }
+
+        .tile {
+            background-color: var(--card-bg);
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 16px;
+        }
+
+        .tile h3 { color: var(--accent-blue); margin-bottom: 8px; font-size: 20px; }
+
+        .highlight-card {
+            background: linear-gradient(135deg, var(--accent-blue), #1e40af);
+            color: white;
+            padding: 40px;
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .controls {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .btn {
+            background: var(--card-bg);
+            color: var(--text-light);
+            border: 1px solid var(--border-color);
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn:hover {
+            background: var(--accent-blue);
+            border-color: var(--accent-blue);
+        }
+
+        .btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .page-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 60px;
+            font-size: 14px;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+        }
+
+        .bullet-list { list-style: none; }
+        .bullet-list li {
+            margin-bottom: 12px;
+            position: relative;
+            padding-left: 25px;
+            font-size: 18px;
+            color: var(--text-muted);
+        }
+        .bullet-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent-blue);
+            font-weight: bold;
+        }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th { background-color: var(--card-bg); text-align: left; padding: 15px; color: var(--accent-blue); border-bottom: 2px solid var(--accent-blue); }
+        td { padding: 15px; border-bottom: 1px solid var(--border-color); font-size: 16px; color: var(--text-muted); }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border-bottom: 4px solid var(--accent-blue);
+        }
+
+        .stat-value { font-size: 32px; font-weight: 700; color: #fff; margin-bottom: 5px; }
+        .stat-label { font-size: 14px; color: var(--text-muted); text-transform: uppercase; }
+
+    </style>
+</head>
+<body>
+
+<div class="presentation-wrapper">
+    
+    <!-- SLIDE 1: GİRİŞ -->
+    <div class="slide active" id="slide-0">
+        <div class="content-area" style="text-align: center;">
+            <div style="font-size: 12px; letter-spacing: 5px; color: var(--accent-blue); margin-bottom: 20px; font-weight: 700;">KOSGEB KAPASİTE GELİŞTİRME DESTEĞİ PROJESİ</div>
+            <h1 style="font-size: 88px; margin-bottom: 10px; font-weight: 700; letter-spacing: -2px;">ENVANTER <span>B2B</span></h1>
+            <p style="font-size: 32px; color: var(--text-muted); max-width: 900px; margin: 0 auto;">Türkiye'nin KOBİ'lerini Dijital Tedarik Zinciri ile Holdinglere Bağlayan Güven Köprüsü</p>
+            <div style="margin-top: 60px; padding: 15px 40px; border: 1px solid var(--border-color); display: inline-block; border-radius: 4px;">
+                <p style="color: var(--text-muted); font-size: 14px;">2026 Milli Ekonomik Dönüşüm Hamlesi</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: ENVANTER NEDİR? -->
+    <div class="slide" id="slide-1">
+        <h2 class="slide-title">Envanter <span>Nedir?</span></h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div class="col">
+                    <p style="font-size: 22px; line-height: 1.6; margin-bottom: 30px; color: var(--text-light);">
+                        Envanter, Türkiye'deki üretim gücünü (KOBİ'ler) ve sermaye gücünü (Büyük İşletmeler) doğrulanmış veri üzerinde buluşturan **Milli Tedarikçi Yönetim Ekosistemi**dir.
+                    </p>
+                    <div class="tile">
+                        <h3>Ağ Tabanlı Ekosistem</h3>
+                        <p>KOBİ'lerin "bir kez kayıt olup her alıcıya güvenli bağlanmasını" sağlayan dinamik bir platform.</p>
+                    </div>
+                    <div class="tile">
+                        <h3>Akıllı Eşleştirme</h3>
+                        <p>İthal edilen hammaddelerin yerli muadillerini bularak sanayicinin maliyetini düşürür.</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="highlight-card">
+                        <i class="fa-solid fa-link" style="font-size: 60px; margin-bottom: 20px;"></i>
+                        <h2>"Onboard Once, Connect All"</h2>
+                        <p style="margin-top: 15px; opacity: 0.8;">Bir Kez Doğrulan, Tüm Pazarın Onaylı Tedarikçisi Ol.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: 2026 MEVZUAT FIRSATI -->
+    <div class="slide" id="slide-2">
+        <h2 class="slide-title">Stratejik Zamanlama: <span>2026 Dönüşümü</span></h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div class="col">
+                    <div class="tile" style="border-left-color: #ef4444;">
+                        <h3 style="color: #ef4444;">Mevzuat Baskısı</h3>
+                        <p>10813 Sayılı Cumhurbaşkanlığı Kararı ile düşük değerli ithalatın zorlaşması, KOBİ'lerin yurt dışı tedarik maliyetlerini %80 artırdı.</p>
+                    </div>
+                    <div class="tile" style="border-left-color: var(--accent-green);">
+                        <h3 style="color: var(--accent-green);">Envanter Çözümü</h3>
+                        <p>İthalatın zorlaştığı bu dönemde, holdinglerin aradığı **"Yerli ve Güvenilir Tedarikçiyi"** anında bulmalarını sağlar.</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <ul class="bullet-list">
+                        <li>GİB 2026 Yeni Teknik Paketlerine %100 Uyum.</li>
+                        <li>KVKK 2026 Veri Yerleşimi Zorunluluklarına Yerli Altyapı.</li>
+                        <li>Yabancı yazılımlara giden döviz sızıntısının önlenmesi.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: KOBİ KAPASİTESİ VE VERİMLİLİK -->
+    <div class="slide" id="slide-3">
+        <h2 class="slide-title">KOBİ'ler İçin <span>Kapasite</span> Artışı</h2>
+        <div class="content-area">
+            <div class="grid-3">
+                <div class="stat-card">
+                    <div class="stat-value">%65</div>
+                    <div class="stat-label">Süreç Hızlanması</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">%100</div>
+                    <div class="stat-label">Mevzuat Uyumu</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">1.2 Mr TL</div>
+                    <div class="stat-label">İthal İkamesi Hedefi</div>
+                </div>
+            </div>
+            <div style="margin-top: 40px;" class="tile">
+                <h3>Dijitalleşme Kaldıracı</h3>
+                <p>Anadolu'daki bir üretici, Envanter sayesinde dijital kimliğini (Risk Skoru, Sertifikalar, Kapasite) bir holdinge fiziksel bir görüşme yapmadan kanıtlayabilir.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: TEKNİK ALTYAPI VE GÜVENLİK -->
+    <div class="slide" id="slide-4">
+        <h2 class="slide-title">Teknik <span>Egemenlik</span> Altyapısı</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div class="col">
+                    <div class="tile">
+                        <h3>MERSİS & GİB Entegrasyonu</h3>
+                        <p>Vergi levhası ve yetki belgelerinin manuel beyan yerine resmi servislerden anlık doğrulanması.</p>
+                    </div>
+                    <div class="tile">
+                        <h3>BİLGE Sistemi Senkronizasyonu</h3>
+                        <p>Gümrük beyannameleri ve GTİP kodları ile tam entegre lojistik takip modülü.</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="tile">
+                        <h3>Zero-Trust Güvenlik</h3>
+                        <p>KVKK 2026 standartlarında, verinin Türkiye sınırları içinde kalmasını sağlayan yerli bulut mimarisi.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: TİCARİLEŞME VE GELİR MODELİ -->
+    <div class="slide" id="slide-5">
+        <h2 class="slide-title">Sürdürülebilirlik ve <span>Gelir</span></h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div class="col">
+                    <ul class="bullet-list">
+                        <li><strong>KOBİ Abonelikleri:</strong> Temel kullanım ücretsiz, gelişmiş raporlama "Premium" model.</li>
+                        <li><strong>Holding Lisansları:</strong> Büyük alıcılar için yıllık "Tedarikçi Yönetim Paneli" ücreti.</li>
+                        <li><strong>Veri Analitiği:</strong> Sektörel bazda pazar trendi raporları satışı.</li>
+                    </ul>
+                </div>
+                <div class="col">
+                    <div class="highlight-card" style="background: var(--card-bg); border: 1px solid var(--accent-blue);">
+                        <h3 style="color: var(--accent-blue);">Hedef Pazar Penetrasyonu</h3>
+                        <h1 style="font-size: 54px; margin: 15px 0;">50.000+</h1>
+                        <p>24 Ay sonunda hedeflenen aktif firma sayısı.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: YERLİ MALI VE İSTİHDAM -->
+    <div class="slide" id="slide-6">
+        <h2 class="slide-title">Yerli Malı ve <span>Milli Değer</span></h2>
+        <div class="content-area">
+            <div class="grid-3">
+                <div class="tile" style="text-align: center;">
+                    <i class="fa-solid fa-award" style="font-size: 40px; color: var(--accent-green);"></i>
+                    <h3 style="margin-top: 15px;">Yerli Malı Belgesi</h3>
+                    <p>Sistemi kullanan firmaların kamu ihalelerinde %15 fiyat avantajı mekanizmasını işletiyoruz.</p>
+                </div>
+                <div class="tile" style="text-align: center;">
+                    <i class="fa-solid fa-users-gear" style="font-size: 40px; color: var(--accent-green);"></i>
+                    <h3 style="margin-top: 15px;">Nitelikli İstihdam</h3>
+                    <p>En az 25 kişiye yüksek teknolojili ve katma değerli iş olanağı.</p>
+                </div>
+                <div class="tile" style="text-align: center;">
+                    <i class="fa-solid fa-shield-heart" style="font-size: 40px; color: var(--accent-green);"></i>
+                    <h3 style="margin-top: 15px;">Siber Egemenlik</h3>
+                    <p>Dışa bağımlı SAP/Graphite sistemlerine yerli ve milli alternatif.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 8: BÜTÇE VE KAYNAK PLANI -->
+    <div class="slide" id="slide-7">
+        <h2 class="slide-title">Bütçe ve <span>Yatırım</span> İhtiyacı</h2>
+        <div class="content-area">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Harcama Kalemi</th>
+                        <th>Gerekçe</th>
+                        <th>Destek Talebi (TL)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Nitelikli Personel</strong></td>
+                        <td>Yazılım mimarları ve veri bilimciler.</td>
+                        <td>9.000.000</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Teknolojik Altyapı</strong></td>
+                        <td>Siber güvenlik ve yerli bulut sunucular.</td>
+                        <td>6.000.000</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tanıtım ve Yaygınlaştırma</strong></td>
+                        <td>OSB bazlı saha operasyonları.</td>
+                        <td>5.000.000</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div style="margin-top: 20px; text-align: right;">
+                <h3 style="color: var(--accent-blue);">Toplam: 20.000.000 TL</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 9: YOL HARİTASI -->
+    <div class="slide" id="slide-8">
+        <h2 class="slide-title">24 Aylık <span>Yol Haritası</span></h2>
+        <div class="content-area">
+            <div style="display: flex; justify-content: space-between; position: relative; padding-top: 50px;">
+                <div style="position: absolute; top: 60px; left: 0; width: 100%; height: 2px; background: var(--border-color);"></div>
+                <div style="width: 20%; position: relative;">
+                    <div style="width: 20px; height: 20px; background: var(--accent-blue); border-radius: 50%; margin: -10px auto 20px;"></div>
+                    <h3>Q1 2026</h3>
+                    <p style="font-size: 14px;">Prototip & MVP Testleri</p>
+                </div>
+                <div style="width: 20%; position: relative;">
+                    <div style="width: 20px; height: 20px; background: var(--accent-blue); border-radius: 50%; margin: -10px auto 20px;"></div>
+                    <h3>Q3 2026</h3>
+                    <p style="font-size: 14px;">Büyük Alıcı Pilotları</p>
+                </div>
+                <div style="width: 20%; position: relative;">
+                    <div style="width: 20px; height: 20px; background: var(--accent-blue); border-radius: 50%; margin: -10px auto 20px;"></div>
+                    <h3>Q1 2027</h3>
+                    <p style="font-size: 14px;">Tam Ölçekli Yayılım</p>
+                </div>
+                <div style="width: 20%; position: relative;">
+                    <div style="width: 20px; height: 20px; background: #fff; border-radius: 50%; margin: -10px auto 20px;"></div>
+                    <h3>Q4 2027</h3>
+                    <p style="font-size: 14px;">Bölgesel Liderlik</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 10: SONUÇ VE İLETİŞİM -->
+    <div class="slide" id="slide-9">
+        <div class="content-area" style="text-align: center;">
+            <i class="fa-solid fa-flag-checkered" style="font-size: 60px; color: var(--accent-blue); margin-bottom: 30px;"></i>
+            <h1 style="font-size: 54px; margin-bottom: 20px;">Teşekkür Ederiz</h1>
+            <p style="font-size: 22px; color: var(--text-muted); margin-bottom: 60px;">KOSGEB Desteği ile Türkiye'nin Dijital Geleceğini İnşa Ediyoruz.</p>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; max-width: 700px; margin: 0 auto; text-align: left;">
+                <div>
+                    <h4 style="color: var(--accent-blue); margin-bottom: 10px;">PROJE MERKEZİ</h4>
+                    <p style="color: var(--text-muted); font-size: 14px;">Envanter Yazılım A.Ş. (Temsili)</p>
+                    <p style="color: var(--text-muted); font-size: 14px;">Ankara / İstanbul Ofisleri</p>
+                </div>
+                <div>
+                    <h4 style="color: var(--accent-blue); margin-bottom: 10px;">İLETİŞİM</h4>
+                    <p style="color: var(--text-muted); font-size: 14px;">Web: www.envanter.local</p>
+                    <p style="color: var(--text-muted); font-size: 14px;">E-Posta: iletisim@envanter.local</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- KONTROLLER -->
+    <div class="controls">
+        <button class="btn" id="prevBtn" disabled><i class="fa-solid fa-arrow-left"></i> Geri</button>
+        <button class="btn" id="nextBtn">İleri <i class="fa-solid fa-arrow-right"></i></button>
+    </div>
+
+    <div class="page-indicator" id="indicator">1 / 10</div>
+
+</div>
+
+<script>
+    const slides = document.querySelectorAll('.slide');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const indicator = document.getElementById('indicator');
+    let currentSlide = 0;
+
+    function updateSlide() {
+        slides.forEach((slide, index) => {
+            slide.classList.remove('active');
+            if (index === currentSlide) {
+                slide.classList.add('active');
+            }
+        });
+
+        indicator.innerText = `${currentSlide + 1} / ${slides.length}`;
+        prevBtn.disabled = currentSlide === 0;
+        nextBtn.disabled = currentSlide === slides.length - 1;
+    }
+
+    nextBtn.addEventListener('click', () => {
+        if (currentSlide < slides.length - 1) {
+            currentSlide++;
+            updateSlide();
+        }
+    });
+
+    prevBtn.addEventListener('click', () => {
+        if (currentSlide > 0) {
+            currentSlide--;
+            updateSlide();
+        }
+    });
+
+    // Klavye kontrolleri
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === ' ') {
+            nextBtn.click();
+        } else if (e.key === 'ArrowLeft') {
+            prevBtn.click();
+        }
+    });
+</script>
+
+</body>
+</html>
