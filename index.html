@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Ogretim Ilke ve Yontemleri - Sinav Hazirlik</title>
+	<style>
+		:root {
+			--bg: #f4f7fb;
+			--panel: #ffffff;
+			--ink: #14213d;
+			--muted: #49617e;
+			--accent: #0f8b8d;
+			--accent-2: #f4a261;
+			--good: #2a9d8f;
+			--bad: #e63946;
+			--line: #dce6f2;
+			--shadow: 0 10px 28px rgba(20, 33, 61, 0.12);
+		}
+
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			margin: 0;
+			font-family: "Segoe UI", "Trebuchet MS", sans-serif;
+			color: var(--ink);
+			background:
+				radial-gradient(circle at 12% 18%, #d9f4f4 0%, transparent 36%),
+				radial-gradient(circle at 86% 12%, #ffe8cf 0%, transparent 34%),
+				linear-gradient(165deg, #eef5fb 0%, #f7fbff 35%, #eaf2fa 100%);
+			min-height: 100vh;
+		}
+
+		.wrap {
+			width: min(1180px, 92vw);
+			margin: 28px auto 40px;
+		}
+
+		.hero {
+			background: linear-gradient(120deg, #0f8b8d, #277da1 62%, #1d3557);
+			color: #fff;
+			border-radius: 20px;
+			box-shadow: var(--shadow);
+			padding: 26px 24px;
+			position: relative;
+			overflow: hidden;
+		}
+
+		.hero::after {
+			content: "";
+			position: absolute;
+			right: -70px;
+			top: -70px;
+			width: 220px;
+			height: 220px;
+			background: rgba(255, 255, 255, 0.14);
+			border-radius: 50%;
+		}
+
+		.hero h1 {
+			margin: 0;
+			font-size: clamp(24px, 3.2vw, 38px);
+			letter-spacing: 0.4px;
+		}
+
+		.hero p {
+			margin: 10px 0 0;
+			max-width: 820px;
+			line-height: 1.5;
+			font-size: clamp(14px, 2vw, 18px);
+			opacity: 0.96;
+		}
+
+		.stats {
+			margin-top: 16px;
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+			gap: 10px;
+		}
+
+		.chip {
+			background: rgba(255, 255, 255, 0.14);
+			border: 1px solid rgba(255, 255, 255, 0.26);
+			border-radius: 12px;
+			padding: 10px;
+			backdrop-filter: blur(2px);
+		}
+
+		.chip .k {
+			font-size: 12px;
+			text-transform: uppercase;
+			letter-spacing: 0.6px;
+			opacity: 0.88;
+		}
+
+		.chip .v {
+			margin-top: 4px;
+			font-size: 18px;
+			font-weight: 700;
+		}
+
+		.tabs {
+			margin-top: 18px;
+			display: flex;
+			flex-wrap: wrap;
+			gap: 8px;
+		}
+
+		.tab-btn {
+			border: 1px solid var(--line);
+			background: #fff;
+			color: var(--muted);
+			border-radius: 999px;
+			padding: 10px 14px;
+			cursor: pointer;
+			font-size: 14px;
+			transition: 0.2s ease;
+		}
+
+		.tab-btn.active,
+		.tab-btn:hover {
+			color: #fff;
+			background: linear-gradient(120deg, #0f8b8d, #277da1);
+			border-color: transparent;
+			transform: translateY(-1px);
+		}
+
+		.panel {
+			display: none;
+			margin-top: 14px;
+			background: var(--panel);
+			border: 1px solid var(--line);
+			border-radius: 16px;
+			box-shadow: var(--shadow);
+			padding: 18px;
+			animation: fade 0.3s ease;
+		}
+
+		.panel.active {
+			display: block;
+		}
+
+		@keyframes fade {
+			from {
+				opacity: 0;
+				transform: translateY(8px);
+			}
+
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		h2 {
+			margin: 0 0 12px;
+			font-size: clamp(20px, 2.4vw, 28px);
+			color: #1d3557;
+		}
+
+		.lead {
+			margin: 0 0 16px;
+			line-height: 1.6;
+			color: var(--muted);
+		}
+
+		.acc {
+			border: 1px solid var(--line);
+			border-radius: 12px;
+			margin-bottom: 10px;
+			overflow: hidden;
+		}
+
+		.acc button {
+			width: 100%;
+			text-align: left;
+			border: 0;
+			padding: 14px;
+			cursor: pointer;
+			font-weight: 700;
+			background: #f8fbff;
+			color: #1d3557;
+		}
+
+		.acc button:hover {
+			background: #eef6ff;
+		}
+
+		.acc .body {
+			display: none;
+			padding: 12px 14px 14px;
+			line-height: 1.65;
+			border-top: 1px solid var(--line);
+			color: #22354f;
+		}
+
+		.acc.open .body {
+			display: block;
+		}
+
+		.grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+			gap: 12px;
+		}
+
+		.card {
+			border: 1px solid var(--line);
+			border-radius: 12px;
+			padding: 12px;
+			background: #fbfdff;
+		}
+
+		.card h3 {
+			margin: 0 0 8px;
+			color: #1d3557;
+			font-size: 17px;
+		}
+
+		.muted {
+			color: var(--muted);
+			font-size: 14px;
+		}
+
+		ul {
+			margin: 8px 0 0 18px;
+			padding: 0;
+		}
+
+		li {
+			margin-bottom: 6px;
+			line-height: 1.45;
+		}
+
+		.fc-wrap {
+			display: grid;
+			grid-template-columns: 1fr;
+			gap: 12px;
+			max-width: 860px;
+		}
+
+		.flash {
+			background: linear-gradient(130deg, #ffffff, #f6fbff);
+			border: 2px solid #d6e6f8;
+			min-height: 210px;
+			border-radius: 16px;
+			padding: 18px;
+			cursor: pointer;
+			display: grid;
+			align-content: start;
+			gap: 8px;
+			transition: 0.2s ease;
+		}
+
+		.flash:hover {
+			transform: translateY(-2px);
+			box-shadow: var(--shadow);
+		}
+
+		.badge {
+			font-size: 12px;
+			background: #e9f5f5;
+			color: #0f8b8d;
+			width: fit-content;
+			border-radius: 999px;
+			padding: 4px 10px;
+			font-weight: 700;
+		}
+
+		.flash h3 {
+			margin: 0;
+			font-size: 22px;
+			line-height: 1.4;
+			color: #10243b;
+		}
+
+		.controls {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 8px;
+		}
+
+		.btn {
+			border: 0;
+			border-radius: 10px;
+			background: #1d3557;
+			color: #fff;
+			padding: 9px 12px;
+			cursor: pointer;
+			font-weight: 600;
+		}
+
+		.btn.alt {
+			background: #0f8b8d;
+		}
+
+		.btn.light {
+			background: #edf3fb;
+			color: #1d3557;
+			border: 1px solid #d5e2f1;
+		}
+
+		.btn.good {
+			background: var(--good);
+		}
+
+		.btn:hover {
+			filter: brightness(0.95);
+		}
+
+		.progress {
+			height: 12px;
+			width: 100%;
+			background: #e6edf7;
+			border-radius: 999px;
+			overflow: hidden;
+		}
+
+		.progress > span {
+			display: block;
+			height: 100%;
+			width: 0;
+			background: linear-gradient(90deg, #0f8b8d, #f4a261);
+			transition: width 0.25s ease;
+		}
+
+		.qbox {
+			border: 1px solid var(--line);
+			border-radius: 14px;
+			padding: 14px;
+			margin-bottom: 10px;
+			background: #fcfdff;
+		}
+
+		.qbox h4 {
+			margin: 0 0 8px;
+			font-size: 18px;
+		}
+
+		.option {
+			display: block;
+			margin: 6px 0;
+			border: 1px solid #dae6f6;
+			border-radius: 9px;
+			padding: 8px;
+			cursor: pointer;
+		}
+
+		.option:hover {
+			background: #eef5ff;
+		}
+
+		.option.correct {
+			border-color: #5fbf9f;
+			background: #e8fbf4;
+		}
+
+		.option.wrong {
+			border-color: #ef8f95;
+			background: #fff0f1;
+		}
+
+		.pill {
+			display: inline-block;
+			border: 1px solid var(--line);
+			border-radius: 999px;
+			padding: 6px 10px;
+			margin: 0 6px 6px 0;
+			background: #fff;
+			font-size: 13px;
+		}
+
+		.plan {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+			gap: 10px;
+		}
+
+		.slot {
+			border: 1px solid var(--line);
+			border-radius: 12px;
+			padding: 12px;
+			background: #fcfdff;
+		}
+
+		.slot h4 {
+			margin: 0 0 8px;
+			color: #0f8b8d;
+		}
+
+		.footer-note {
+			margin-top: 14px;
+			color: #4b617d;
+			font-size: 13px;
+			line-height: 1.5;
+		}
+
+		@media (max-width: 680px) {
+			.hero {
+				padding: 20px 16px;
+			}
+
+			.panel {
+				padding: 14px;
+			}
+
+			.flash h3 {
+				font-size: 19px;
+			}
+		}
+	</style>
+</head>
+<body>
+	<div class="wrap">
+		<header class="hero">
+			<h1>Ogretim Ilke ve Yontemleri - Son Gun Hazirlik</h1>
+			<p>
+				Bu sayfa, gorsellerinden derlenen konu ozetleriyle aktif tekrar yapman icin hazirlandi.
+				Hedef: son 1 gunde yuksek verimli tekrar, hizli ezber ve cikabilecek soru tiplerine odak.
+			</p>
+			<div class="stats">
+				<div class="chip">
+					<div class="k">Universite</div>
+					<div class="v">Bolu Abant Izzet Baysal Universitesi</div>
+				</div>
+				<div class="chip">
+					<div class="k">Bolum</div>
+					<div class="v">Okul Oncesi</div>
+				</div>
+				<div class="chip">
+					<div class="k">Geri Sayim</div>
+					<div class="v" id="countdown">Hesaplaniyor...</div>
+				</div>
+			</div>
+		</header>
+
+		<nav class="tabs" id="tabs">
+			<button class="tab-btn active" data-tab="notes">Detayli Notlar</button>
+			<button class="tab-btn" data-tab="flashcards">Flashcard</button>
+			<button class="tab-btn" data-tab="quiz">Mini Test</button>
+			<button class="tab-btn" data-tab="rapid">Hizli Tekrar</button>
+			<button class="tab-btn" data-tab="plan">Son Gun Plani</button>
+		</nav>
+
+		<section class="panel active" id="notes">
+			<h2>Detayli Sinav Notlari</h2>
+			<p class="lead">
+				Asagidaki notlar sinav gorsellerindeki ana kavramlari birlestirir. Ac-kapa basliklariyla adim adim tekrar et.
+			</p>
+
+			<div class="acc open">
+				<button type="button">1) Egitim Programinin Icerik Boyutu ve Temel Ilkeler</button>
+				<div class="body">
+					<ul>
+						<li>Icerik boyutu, "Ne ogretelim?" sorusunun cevabidir.</li>
+						<li>Kazanimlarla tutarli, anlamli ve bilimsel olmalidir.</li>
+						<li>Gecerli, guvenilir, kullanisli bilgi butunu icermelidir.</li>
+						<li>Cagdas ve klasik bilgiyi dengeli sekilde sunmalidir.</li>
+						<li>Ogrenciyi dusunmeye, arastirmaya, sorgulamaya yoneltmelidir.</li>
+						<li>On ogrenmelerle baglantili olmali; bilissel-duyussal-psikomotor duzeye uygun planlanmalidir.</li>
+						<li>Siralama ilkeleri: somuttan soyuta, basitten karmasiga, kolaydan zora, yakindan uzaga.</li>
+						<li>Asamalilik ilkesi: konu adimlari birbirinin on kosulunu destekleyecek duzende olmalidir.</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="acc">
+				<button type="button">2) Icerik Duzenleme Yaklasimlari (Programlama Yaklasimlari)</button>
+				<div class="body">
+					<div class="grid">
+						<div class="card">
+							<h3>Dogrusal Yaklasim (Tyler/Bloom)</h3>
+							<ul>
+								<li>Konu dizisi ardiskik, zorunlu ve on kosul iliskisi gucludur.</li>
+								<li>Asamali ilerleme vardir; esneklik dusuktur.</li>
+								<li>Temel derslerde ve sistematik siralamada kullanislidir.</li>
+							</ul>
+						</div>
+						<div class="card">
+							<h3>Sarmal Yaklasim (Bruner)</h3>
+							<ul>
+								<li>Konuya farkli derinliklerde tekrar geri donulur.</li>
+								<li>Dogrusal katilik yoktur; daha esnek bir duzen vardir.</li>
+								<li>Eski bilgi yeni baglamla yeniden kurulur.</li>
+							</ul>
+						</div>
+						<div class="card">
+							<h3>Moduler Yaklasim (Vygotsky odakli kullanim)</h3>
+							<ul>
+								<li>Icerik bagimsiz veya yari bagimli moduller halinde sunulur.</li>
+								<li>Siralama esnek, sonuc hedefleri nettir.</li>
+								<li>Mesleki-beceri temelli yapilarda etkilidir.</li>
+							</ul>
+						</div>
+						<div class="card">
+							<h3>Piramitsel Yaklasim</h3>
+							<ul>
+								<li>Baslangicta genis taban, ileride daralan uzmanlasma vardir.</li>
+								<li>Program sonunda alan uzmanligi hedeflenir.</li>
+								<li>Esneklik dusuktur; ileri asamada secicilik artar.</li>
+							</ul>
+						</div>
+						<div class="card">
+							<h3>Cekirdek Program (Dewey)</h3>
+							<ul>
+								<li>Ortak derslerden bireyin ilgi ve yetenegine gore alana gecis olur.</li>
+								<li>Disiplinlerarasi bag kurmaya elverislidir.</li>
+								<li>Secmeli-ortak ders dengesi kurulur.</li>
+							</ul>
+						</div>
+						<div class="card">
+							<h3>Konu Agi / Proje Merkezli (Dewey)</h3>
+							<ul>
+								<li>Konular harita/ag mantigiyla baglanir.</li>
+								<li>Ogrenci grup ya da bireysel projelerle ilerler.</li>
+								<li>Ogrenci karari ve aktif katilim one cikar.</li>
+							</ul>
+						</div>
+						<div class="card">
+							<h3>Sorgulama Merkezli (Dewey)</h3>
+							<ul>
+								<li>Icerik ogrenci sorulari ve ihtiyaclarina gore sekillenir.</li>
+								<li>Problem bulma-cozme ve elestirel dusunme guclenir.</li>
+								<li>En esnek program duzenlerinden biridir.</li>
+							</ul>
+						</div>
+						<div class="card">
+							<h3>Disiplinlerarasi Yaklasim</h3>
+							<ul>
+								<li>Bir derste ele alinan tema diger derslerle iliskilendirilir.</li>
+								<li>Butuncul ogrenme ve transferi arttirir.</li>
+								<li>Ozellikle okul oncesi butunlestirilmis etkinliklerde etkilidir.</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="acc">
+				<button type="button">3) Bilissel Alan Taksonomisi (Guncellenmis Bloom)</button>
+				<div class="body">
+					<ul>
+						<li><strong>Hatirlama:</strong> Bilgiyi geri cagirma (tanima, animsama).</li>
+						<li><strong>Anlama:</strong> Yorumlama, ornekleme, siniflama, ozetleme, sonuc cikarma, karsilastirma, aciklama.</li>
+						<li><strong>Uygulama:</strong> Bilgiyi yeni durumda kullanma (yurutme, gerceklestirme).</li>
+						<li><strong>Analiz:</strong> Butunu parcalara ayirma, iliski kurma, orgutleme.</li>
+						<li><strong>Degerlendirme:</strong> Olcutlere gore yargi verme, denetleme, elestirme.</li>
+						<li><strong>Yaratma:</strong> Yeni urun/plan/model olusturma (olusturma, planlama, uretme).</li>
+					</ul>
+					<p class="muted">Not: Eski siniflamadaki "Sentez" guncel yapida "Yaratma" olarak ust basamaga alinmistir.</p>
+				</div>
+			</div>
+
+			<div class="acc">
+				<button type="button">4) Duyussal Alan Taksonomisi</button>
+				<div class="body">
+					<ul>
+						<li><strong>Alma:</strong> Uyarana aciklik, secici dikkat, fark etme.</li>
+						<li><strong>Tepkide Bulunma:</strong> Istekli katilim, gonulluluk, razi olma.</li>
+						<li><strong>Deger Verme:</strong> Onem atfetme, benimseme, sorumluluk hissetme.</li>
+						<li><strong>Orgutleme:</strong> Degerleri sistemlestirme, celismeleri duzenleme.</li>
+						<li><strong>Nitelenmislik/Adanmislik:</strong> Degerlerin kisiligin parcasi haline gelmesi.</li>
+					</ul>
+					<p class="muted">Sinavda sikca ornek-senaryo sorusu gelir: davranisin hangi duyussal basamaga ait oldugu sorulur.</p>
+				</div>
+			</div>
+
+			<div class="acc">
+				<button type="button">5) Devinissel/Psikomotor Alan Basamaklari</button>
+				<div class="body">
+					<ul>
+						<li><strong>Algilama:</strong> Hareketi izleme, ipucunu fark etme.</li>
+						<li><strong>Kurulma:</strong> Davranisa hazirlik (zihinsel-bedensel).</li>
+						<li><strong>Kilavuz Denetiminde Yapma:</strong> Taklit, rehber esliginde uygulama.</li>
+						<li><strong>Mekanik Beceri Haline Getirme:</strong> Kismen otomatiklesme.</li>
+						<li><strong>Karmasik Disavuruk Faaliyet:</strong> Akici, hizli, ustalikli performans.</li>
+						<li><strong>Duruma Uydurma:</strong> Ogrenileni yeni kosula transfer etme.</li>
+						<li><strong>Yaratma:</strong> Ozgun psikomotor urun/performans gelistirme.</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="acc">
+				<button type="button">6) Kuram ve Ogretim Modelleri (Carroll, Bloom, Gagne, Biggs, Nunley)</button>
+				<div class="body">
+					<div class="grid">
+						<div class="card">
+							<h3>Okulda Ogrenme Modeli (Carroll)</h3>
+							<ul>
+								<li>Temel fikir: Ogrenme duzeyi = ayrilan sure / gerekli sure.</li>
+								<li>Bes unsur: yetenek, ogretimden yararlanma yetenegi, sebat, firsat, ogretimin niteligi.</li>
+								<li>Zaman degiskeni belirleyicidir; hizli/yavas ogrenen farki sureyle dengelenebilir.</li>
+							</ul>
+						</div>
+						<div class="card">
+							<h3>Tam Ogrenme Modeli (Bloom)</h3>
+							<ul>
+								<li>Uygun kosul ve ek zaman saglanirsa ogrencilerin buyuk cogunlugu ogrenebilir.</li>
+								<li>Degiskenler: bilissel giris, duyussal giris, ogretimin niteligi.</li>
+								<li>Ogretimin niteligi alt boyutlari: ipucu, ogrenci katilimi, pekistirme, donut-duzeltme.</li>
+								<li>Gucu: bireysel farki azaltip basariyi arttirir. Siniri: kalabalik sinifta zaman maliyeti.</li>
+							</ul>
+						</div>
+						<div class="card">
+							<h3>Ogretim Durumlari Modeli (Gagne)</h3>
+							<ul>
+								<li>Ogrenmede dis uyaran + bilissel surec etkilesimine dayanir.</li>
+								<li>9 adim: dikkat cekme, hedefleri bildirme, onceki bilgiyi hatirlatma, icerigi sunma,
+									rehberlik, performans, donut, degerlendirme, kalicilik-transfer.</li>
+							</ul>
+						</div>
+						<div class="card">
+							<h3>Biggs 3P Modeli</h3>
+							<ul>
+								<li><strong>Presage:</strong> ogrenci faktorleri + ogretim baglami.</li>
+								<li><strong>Process:</strong> yuzeysel/derin ogrenme etkinlikleri.</li>
+								<li><strong>Product:</strong> ogrenme ciktisi (nicel, nitel, duygusal katilim).</li>
+							</ul>
+						</div>
+						<div class="card">
+							<h3>Nunley Basamakli Ogretim Modeli</h3>
+							<ul>
+								<li>C basamagi: temel bilgi-kavrama.</li>
+								<li>B basamagi: uygulama ve transfer.</li>
+								<li>A basamagi: analiz, sentez, degerlendirme (ust duzey zihinsel surec).</li>
+								<li>Ogrenciye hazirbulunusluk ve ilgiye gore etkinlik secme firsati verir.</li>
+							</ul>
+						</div>
+						<div class="card">
+							<h3>Ogretim Halkalari (3E, 5E, 7E)</h3>
+							<ul>
+								<li>Kesfetme - Aciklama - Genisletme temel omurgasi vardir.</li>
+								<li>5E: Engage, Explore, Explain, Elaborate, Evaluate.</li>
+								<li>7E: Elicit, Engage, Explore, Explain, Elaborate, Evaluate, Extend/Exchange gibi adimlar.</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="acc">
+				<button type="button">7) Sinav Icin Kisa Ezber Ceklisti</button>
+				<div class="body">
+					<ul>
+						<li>Taksonomilerde basamak adlarini karistirma: Bilissel 6, Duyussal 5, Devinissel 7 asama.</li>
+						<li>Model-eslestirme: Carroll=zaman, Bloom=tam ogrenme degiskenleri, Gagne=9 ogretim durumu.</li>
+						<li>Icerik duzenleme yaklasimlarinda "esneklik" farkini bil: dogrusal/piramitsel dusuk, sarmal/sorgulama yuksek.</li>
+						<li>Ornek sorularda davranis ifadesini basamaga donustur.</li>
+						<li>Senaryo sorularinda anahtar kelime avla: "rehber" -> kilavuz denetimi, "otomatik" -> mekanik beceri.</li>
+					</ul>
+				</div>
+			</div>
+		</section>
+
+		<section class="panel" id="flashcards">
+			<h2>Flashcard Calisma Alani</h2>
+			<p class="lead">Kartin ustune tikla: once soru, sonra cevap. Bildiklerini "Ogrendim" ile isaretle.</p>
+			<div class="fc-wrap">
+				<div class="flash" id="flashCard" title="Tikla: soru/cevap degistir">
+					<span class="badge" id="fcTopic">Konu</span>
+					<h3 id="fcText">Yukleniyor...</h3>
+					<p class="muted" id="fcHint">Kartlara tiklayarak aktif tekrar yap.</p>
+				</div>
+				<div class="controls">
+					<button class="btn" id="prevCard">Onceki</button>
+					<button class="btn" id="nextCard">Sonraki</button>
+					<button class="btn alt" id="shuffleCards">Karistir</button>
+					<button class="btn good" id="markLearned">Ogrendim</button>
+					<button class="btn light" id="resetLearned">Sifirla</button>
+				</div>
+				<div class="progress"><span id="learnedBar"></span></div>
+				<p class="muted" id="learnedText">0 / 0 kart ogrenildi</p>
+			</div>
+		</section>
+
+		<section class="panel" id="quiz">
+			<h2>Mini Test (Cikmis Soru Tarzina Yakin)</h2>
+			<p class="lead">Sorular tek tek gelir. Her soruda secenegi isaretle; puan aninda hesaplanir.</p>
+			<div class="qbox">
+				<h4 id="qTitle">Soru yukleniyor...</h4>
+				<div id="qOptions"></div>
+				<p class="muted" id="qExplain"></p>
+			</div>
+			<div class="controls">
+				<button class="btn" id="nextQ">Sonraki Soru</button>
+				<button class="btn alt" id="restartQ">Testi Sifirla</button>
+			</div>
+			<p class="lead" id="scoreText">Skor: 0</p>
+		</section>
+
+		<section class="panel" id="rapid">
+			<h2>Hizli Tekrar ve Anahtar Kavramlar</h2>
+			<p class="lead">Sinav oncesi 20-30 dakikada son tekrar icin kullan.</p>
+			<div id="rapidTags"></div>
+			<div class="card" style="margin-top: 8px;">
+				<h3>60 Saniye Kurali</h3>
+				<ul>
+					<li>Her etiketi secince 60 saniyede tanim + ornek + model iliskisi kur.</li>
+					<li>Takildigin etiketleri not alip gece yatmadan tekrar et.</li>
+					<li>Ezber degil, "hangi durumda kullanilir" aciklamasi yap.</li>
+				</ul>
+			</div>
+		</section>
+
+		<section class="panel" id="plan">
+			<h2>Son Gun Calisma Plani (Ornek)</h2>
+			<p class="lead">Yarina kadar verim almak icin pomodoro mantiginda kisa ama odakli dongu.</p>
+			<div class="plan">
+				<div class="slot">
+					<h4>Blok 1 - 70 dk</h4>
+					<ul>
+						<li>Icerik duzenleme yaklasimlari</li>
+						<li>Dogrusal-Sarmal-Moduler fark tablosu</li>
+						<li>10 flashcard</li>
+					</ul>
+				</div>
+				<div class="slot">
+					<h4>Blok 2 - 70 dk</h4>
+					<ul>
+						<li>Bilissel + Duyussal taksonomi</li>
+						<li>Ornek davranislari basamaga yerlestirme</li>
+						<li>Mini testten 8 soru</li>
+					</ul>
+				</div>
+				<div class="slot">
+					<h4>Blok 3 - 70 dk</h4>
+					<ul>
+						<li>Psikomotor alan basamaklari</li>
+						<li>Carroll-Bloom-Gagne tekrar</li>
+						<li>Flashcard tam tur</li>
+					</ul>
+				</div>
+				<div class="slot">
+					<h4>Blok 4 - 45 dk</h4>
+					<ul>
+						<li>Biggs 3P, Nunley, 3E-5E-7E</li>
+						<li>Zayif konulara donus</li>
+						<li>Hizli tekrar etiketleri</li>
+					</ul>
+				</div>
+			</div>
+			<p class="footer-note">
+				Son gece stratejisi: 1) yeni konu acma 2) sadece cikabilir basliklara odak 3) uyku oncesi 20 dk hafif tekrar.
+			</p>
+		</section>
+	</div>
+
+	<script>
+		const tabButtons = document.querySelectorAll(".tab-btn");
+		const panels = document.querySelectorAll(".panel");
+
+		tabButtons.forEach((btn) => {
+			btn.addEventListener("click", () => {
+				tabButtons.forEach((b) => b.classList.remove("active"));
+				panels.forEach((p) => p.classList.remove("active"));
+				btn.classList.add("active");
+				document.getElementById(btn.dataset.tab).classList.add("active");
+			});
+		});
+
+		document.querySelectorAll(".acc button").forEach((b) => {
+			b.addEventListener("click", () => b.parentElement.classList.toggle("open"));
+		});
+
+		function updateCountdown() {
+			const now = new Date();
+			const exam = new Date(now);
+			exam.setDate(now.getDate() + 1);
+			exam.setHours(9, 0, 0, 0);
+			const diff = exam - now;
+			const el = document.getElementById("countdown");
+
+			if (diff <= 0) {
+				el.textContent = "Sinav saati geldi";
+				return;
+			}
+
+			const h = Math.floor(diff / 36e5);
+			const m = Math.floor((diff % 36e5) / 6e4);
+			el.textContent = `${h} saat ${m} dk`;
+		}
+
+		updateCountdown();
+		setInterval(updateCountdown, 30000);
+
+		const flashcards = [
+			{ topic: "Icerik Boyutu", q: "Icerik boyutu hangi sorunun cevabidir?", a: "Ne ogretelim sorusunun cevabidir; kazanimlarla tutarli sistematik bilgi butunudur." },
+			{ topic: "Ilke", q: "Icerigin siralama ilkeleri nelerdir?", a: "Somuttan soyuta, basitten karmasiga, kolaydan zora, yakindan uzaga." },
+			{ topic: "Dogrusal", q: "Dogrusal yaklasimin temel ozelligi?", a: "Ardisik ve on kosullu konu sirasi; esneklik dusuktur." },
+			{ topic: "Sarmal", q: "Sarmal yaklasimda neden tekrar vardir?", a: "Ayni konuya farkli derinlikte geri donerek kalicilik ve anlamlandirma saglanir." },
+			{ topic: "Moduler", q: "Moduler programin guclu yani nedir?", a: "Bagimsiz moduller sayesinde sira esnekligi ve beceri odakli tasarim." },
+			{ topic: "Piramitsel", q: "Piramitsel yaklasim neyi hedefler?", a: "Baslangicta genis bilgi, ileride daralarak uzmanlasma." },
+			{ topic: "Sorgulama", q: "Sorgulama merkezli yaklasimda belirleyici oge?", a: "Ogrencinin sorulari, ihtiyaclari ve problem durumu." },
+			{ topic: "Bilissel", q: "Guncel Bloom'da en ust basamak nedir?", a: "Yaratma basamagidir." },
+			{ topic: "Duyussal", q: "Duyussal alanda degere baglilik hangi basamakta kisilik ozelligine donusur?", a: "Nitelenmislik/Adanmislik basamaginda." },
+			{ topic: "Psikomotor", q: "Kilavuz denetiminde yapma neyi anlatir?", a: "Rehber esliginde taklit ve kontrollu uygulamayi." },
+			{ topic: "Carroll", q: "Carroll modelinde ogrenme duzeyi nasil aciklanir?", a: "Ayrilan ogrenme suresi ile gerekli sure arasindaki iliskiyle." },
+			{ topic: "Bloom", q: "Tam ogrenmenin 4 ogretim niteligi unsuru?", a: "Ipucu, ogrenci katilimi, pekistirme, donut-duzeltme." },
+			{ topic: "Gagne", q: "Gagne modelinde ilk adim nedir?", a: "Dikkat cekme (motivasyon/uyaran)." },
+			{ topic: "Biggs", q: "Biggs 3P modelinin 3 boyutu?", a: "Presage, Process, Product." },
+			{ topic: "Nunley", q: "Nunley modelinde A basamagi neyi icerir?", a: "Ust duzey: analiz, sentez/degerlendirme ve elestirel dusunme." }
+		];
+
+		let cardIndex = 0;
+		let showAnswer = false;
+		let learned = JSON.parse(localStorage.getItem("learnedCards") || "[]");
+
+		const fcTopic = document.getElementById("fcTopic");
+		const fcText = document.getElementById("fcText");
+		const fcHint = document.getElementById("fcHint");
+		const learnedBar = document.getElementById("learnedBar");
+		const learnedText = document.getElementById("learnedText");
+
+		function renderCard() {
+			const c = flashcards[cardIndex];
+			fcTopic.textContent = c.topic;
+			fcText.textContent = showAnswer ? c.a : c.q;
+			fcHint.textContent = showAnswer ? "Cevap gorunuyor - tekrar tikla" : "Soru gorunuyor - cevap icin tikla";
+			const pct = (learned.length / flashcards.length) * 100;
+			learnedBar.style.width = `${pct}%`;
+			learnedText.textContent = `${learned.length} / ${flashcards.length} kart ogrenildi`;
+		}
+
+		document.getElementById("flashCard").addEventListener("click", () => {
+			showAnswer = !showAnswer;
+			renderCard();
+		});
+
+		document.getElementById("nextCard").addEventListener("click", () => {
+			cardIndex = (cardIndex + 1) % flashcards.length;
+			showAnswer = false;
+			renderCard();
+		});
+
+		document.getElementById("prevCard").addEventListener("click", () => {
+			cardIndex = (cardIndex - 1 + flashcards.length) % flashcards.length;
+			showAnswer = false;
+			renderCard();
+		});
+
+		document.getElementById("shuffleCards").addEventListener("click", () => {
+			for (let i = flashcards.length - 1; i > 0; i--) {
+				const j = Math.floor(Math.random() * (i + 1));
+				[flashcards[i], flashcards[j]] = [flashcards[j], flashcards[i]];
+			}
+			cardIndex = 0;
+			showAnswer = false;
+			renderCard();
+		});
+
+		document.getElementById("markLearned").addEventListener("click", () => {
+			const id = flashcards[cardIndex].q;
+			if (!learned.includes(id)) {
+				learned.push(id);
+				localStorage.setItem("learnedCards", JSON.stringify(learned));
+			}
+			renderCard();
+		});
+
+		document.getElementById("resetLearned").addEventListener("click", () => {
+			learned = [];
+			localStorage.removeItem("learnedCards");
+			renderCard();
+		});
+
+		renderCard();
+
+		const questions = [
+			{
+				q: "Asagidakilerden hangisi icerik duzenlemede temel ilkelerdendir?",
+				options: ["Somuttan soyuta", "Ustten alta rastgele", "Sadece ezber", "Tek duyuya hitap"],
+				answer: 0,
+				explain: "Icerikte siralama ilkeleri arasinda somuttan soyuta vardir."
+			},
+			{
+				q: "Sarmal yaklasimin ayirt edici yonu nedir?",
+				options: ["Kati ardiskiklik", "Tek seferde tamamlanma", "Konuya farkli duzeyde donus", "On kosulsuz dogrusal ilerleme"],
+				answer: 2,
+				explain: "Sarmal yaklasimda konuya giderek derinlesen tekrarlarla donulur."
+			},
+			{
+				q: "Duyussal alanda en ust basamak hangisidir?",
+				options: ["Alma", "Tepkide bulunma", "Deger verme", "Nitelenmislik/Adanmislik"],
+				answer: 3,
+				explain: "Degerin kisiligin parcasi haline gelmesi son basamaktir."
+			},
+			{
+				q: "Gagne modelinde performans degerlendirmeden once hangi adim vardir?",
+				options: ["Dikkat cekme", "Donut saglama", "Hedefleri bildirme", "Transfer"],
+				answer: 1,
+				explain: "6: performans, 7: donut, 8: performansin degerlendirilmesi seklindedir."
+			},
+			{
+				q: "Carroll modelinde ogrenmeyi dogrudan etkileyen degisken hangisidir?",
+				options: ["Sadece yas", "Ayrilan sure", "Sadece zekâ puani", "Sadece fiziksel ortam"],
+				answer: 1,
+				explain: "Ayrilan ogrenme suresi ve gerekli sure iliskisi anahtardir."
+			},
+			{
+				q: "Asagidakilerden hangisi Tam Ogrenme modelinde ogretim hizmetinin niteligi icinde yer alir?",
+				options: ["Aile gelir duzeyi", "Ipucu", "Sinifin kat durumu", "Mevsim"],
+				answer: 1,
+				explain: "Ipucu, pekistirme, katilim ve donut-duzeltme temel bileenlerdir."
+			},
+			{
+				q: "Psikomotor alanda rehber esliginde yapma hangi basamaktir?",
+				options: ["Algilama", "Kurulma", "Kilavuz denetiminde yapma", "Yaratma"],
+				answer: 2,
+				explain: "Taklit ve yardimli uygulama bu basamagin ozelligidir."
+			},
+			{
+				q: "Biggs 3P modelinde Product neyi ifade eder?",
+				options: ["Ogretmen kisiligini", "Sinif mevcudunu", "Ogrenme ciktisini", "Ders suresini"],
+				answer: 2,
+				explain: "Product: nicel/nitel ve duygusal ogrenme ciktisidir."
+			}
+		];
+
+		let qi = 0;
+		let score = 0;
+		let answered = false;
+
+		const qTitle = document.getElementById("qTitle");
+		const qOptions = document.getElementById("qOptions");
+		const qExplain = document.getElementById("qExplain");
+		const scoreText = document.getElementById("scoreText");
+
+		function renderQuestion() {
+			const q = questions[qi];
+			answered = false;
+			qTitle.textContent = `${qi + 1}/${questions.length} - ${q.q}`;
+			qExplain.textContent = "";
+			qOptions.innerHTML = "";
+
+			q.options.forEach((opt, idx) => {
+				const btn = document.createElement("button");
+				btn.className = "option";
+				btn.textContent = opt;
+				btn.type = "button";
+				btn.addEventListener("click", () => {
+					if (answered) return;
+					answered = true;
+					const all = [...qOptions.querySelectorAll(".option")];
+					all[q.answer].classList.add("correct");
+					if (idx !== q.answer) {
+						btn.classList.add("wrong");
+					} else {
+						score += 1;
+						scoreText.textContent = `Skor: ${score}`;
+					}
+					qExplain.textContent = q.explain;
+				});
+				qOptions.appendChild(btn);
+			});
+		}
+
+		document.getElementById("nextQ").addEventListener("click", () => {
+			qi = (qi + 1) % questions.length;
+			renderQuestion();
+		});
+
+		document.getElementById("restartQ").addEventListener("click", () => {
+			qi = 0;
+			score = 0;
+			scoreText.textContent = "Skor: 0";
+			renderQuestion();
+		});
+
+		renderQuestion();
+
+		const rapidTerms = [
+			"Somuttan soyuta",
+			"Dogrusal-Sarmal farki",
+			"Moduler esneklik",
+			"Piramitsel uzmanlasma",
+			"Sorgulama merkezli",
+			"Bilissel: Analiz",
+			"Bilissel: Yaratma",
+			"Duyussal: Deger verme",
+			"Duyussal: Orgutleme",
+			"Psikomotor: Kilavuz",
+			"Psikomotor: Karmasik faaliyet",
+			"Carroll sure degiskeni",
+			"Bloom tam ogrenme",
+			"Gagne 9 adim",
+			"Biggs 3P",
+			"Nunley A-B-C",
+			"3E-5E-7E halkalari",
+			"Ipucu-katilim-pekistirme-donut"
+		];
+
+		const rapid = document.getElementById("rapidTags");
+		rapidTerms.forEach((t) => {
+			const s = document.createElement("span");
+			s.className = "pill";
+			s.textContent = t;
+			rapid.appendChild(s);
+		});
+	</script>
+</body>
+</html>
