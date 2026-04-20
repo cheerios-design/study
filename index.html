@@ -73,33 +73,6 @@
 			opacity: 0.96;
 		}
 
-		.stats {
-			margin-top: 16px;
-			display: grid;
-			grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-			gap: 10px;
-		}
-
-		.chip {
-			background: rgba(255, 255, 255, 0.14);
-			border: 1px solid rgba(255, 255, 255, 0.26);
-			border-radius: 12px;
-			padding: 10px;
-			backdrop-filter: blur(2px);
-		}
-
-		.chip .k {
-			font-size: 12px;
-			text-transform: uppercase;
-			letter-spacing: 0.6px;
-			opacity: 0.88;
-		}
-
-		.chip .v {
-			margin-top: 4px;
-			font-size: 18px;
-			font-weight: 700;
-		}
 
 		.tabs {
 			margin-top: 18px;
@@ -370,6 +343,30 @@
 			margin: 0 6px 6px 0;
 			background: #fff;
 			font-size: 13px;
+			cursor: pointer;
+			transition: 0.2s ease;
+		}
+
+		.pill:hover {
+			background: #eef5ff;
+			border-color: #b6d0ee;
+		}
+
+		.pill.active {
+			background: #0f8b8d;
+			color: #fff;
+			border-color: #0f8b8d;
+		}
+
+		.rapid-info {
+			margin: 10px 0 8px;
+			padding: 12px;
+			border-radius: 10px;
+			border: 1px solid #cfe0f3;
+			background: #f7fbff;
+			min-height: 54px;
+			line-height: 1.5;
+			color: #244160;
 		}
 
 		.plan {
@@ -420,20 +417,6 @@
 				Bu sayfa, gorsellerinden derlenen konu ozetleriyle aktif tekrar yapman icin hazirlandi.
 				Hedef: son 1 gunde yuksek verimli tekrar, hizli ezber ve cikabilecek soru tiplerine odak.
 			</p>
-			<div class="stats">
-				<div class="chip">
-					<div class="k">Universite</div>
-					<div class="v">Bolu Abant Izzet Baysal Universitesi</div>
-				</div>
-				<div class="chip">
-					<div class="k">Bolum</div>
-					<div class="v">Okul Oncesi</div>
-				</div>
-				<div class="chip">
-					<div class="k">Geri Sayim</div>
-					<div class="v" id="countdown">Hesaplaniyor...</div>
-				</div>
-			</div>
 		</header>
 
 		<nav class="tabs" id="tabs">
@@ -694,6 +677,7 @@
 			<h2>Hizli Tekrar ve Anahtar Kavramlar</h2>
 			<p class="lead">Sinav oncesi 20-30 dakikada son tekrar icin kullan.</p>
 			<div id="rapidTags"></div>
+			<div class="rapid-info" id="rapidInfo">Bir etikete tikla, sana 20-30 saniyelik mini ozet gostereyim.</div>
 			<div class="card" style="margin-top: 8px;">
 				<h3>60 Saniye Kurali</h3>
 				<ul>
@@ -763,27 +747,6 @@
 		document.querySelectorAll(".acc button").forEach((b) => {
 			b.addEventListener("click", () => b.parentElement.classList.toggle("open"));
 		});
-
-		function updateCountdown() {
-			const now = new Date();
-			const exam = new Date(now);
-			exam.setDate(now.getDate() + 1);
-			exam.setHours(9, 0, 0, 0);
-			const diff = exam - now;
-			const el = document.getElementById("countdown");
-
-			if (diff <= 0) {
-				el.textContent = "Sinav saati geldi";
-				return;
-			}
-
-			const h = Math.floor(diff / 36e5);
-			const m = Math.floor((diff % 36e5) / 6e4);
-			el.textContent = `${h} saat ${m} dk`;
-		}
-
-		updateCountdown();
-		setInterval(updateCountdown, 30000);
 
 		const flashcards = [
 			{ topic: "Icerik Boyutu", q: "Icerik boyutu hangi sorunun cevabidir?", a: "Ne ogretelim sorusunun cevabidir; kazanimlarla tutarli sistematik bilgi butunudur." },
@@ -991,11 +954,39 @@
 			"Ipucu-katilim-pekistirme-donut"
 		];
 
+		const rapidDetails = {
+			"Somuttan soyuta": "Yeni konu anlatirken once cocugun dogrudan gozlemleyebilecegi orneklerden baslanir, sonra soyut kavrama gecilir.",
+			"Dogrusal-Sarmal farki": "Dogrusalda konu bir kez ardiskik ilerler; sarmalda konu farkli duzeylerde tekrar edilerek derinlesir.",
+			"Moduler esneklik": "Moduler yapida konu birimleri bagimsiz planlanabildigi icin sira ve sure daha esnek yonetilir.",
+			"Piramitsel uzmanlasma": "Ilk yillarda genis temel, sonraki yillarda daralan alanla uzmanlasma hedeflenir.",
+			"Sorgulama merkezli": "Ogrenme ogrencinin sorulari ve problemleri etrafinda kurulur; aktif arastirma one cikar.",
+			"Bilissel: Analiz": "Butunu parcalara ayirma, iliski kurma, neden-sonuc bagini aciklama davranislaridir.",
+			"Bilissel: Yaratma": "Mevcut bilgiden yeni plan, urun, model veya cozum olusturma basamagidir.",
+			"Duyussal: Deger verme": "Bireyin bir degeri onemseyip davranislarinda tutarli sekilde gostermeye baslamasidir.",
+			"Duyussal: Orgutleme": "Farkli degerleri karsilastirip bir deger sistemi olusturma ve celiskileri duzenleme asamasidir.",
+			"Psikomotor: Kilavuz": "Davranis rehber esliginde, taklit ve yonlendirmeyle kontrollu bicimde yapilir.",
+			"Psikomotor: Karmasik faaliyet": "Davranis ustalikla, hizli, dogru ve akici sekilde sergilenir.",
+			"Carroll sure degiskeni": "Basari, ogrenmeye ayrilan sure ile ogrenme icin gereken sure arasindaki dengeye baglidir.",
+			"Bloom tam ogrenme": "Uygun ogretim kosulu + ek zaman verilirse ogrencilerin buyuk cogunlugu hedefe ulasabilir.",
+			"Gagne 9 adim": "Dikkat cekmeden baslar; hedef bildirme, onceki bilgiyi canlandirma, sunum, rehberlik, performans, donut, degerlendirme, transferle biter.",
+			"Biggs 3P": "Presage (giris), Process (surec), Product (cikti) baglantisini kurarak ogrenmeyi sistemli aciklar.",
+			"Nunley A-B-C": "C temel bilgi, B uygulama, A ust duzey analiz-degerlendirme-yaratma becerileridir.",
+			"3E-5E-7E halkalari": "Kesfetme-aciklama-genisletme cekirdegi korunur; E sayisi arttikca asamalar daha ayrintilanir.",
+			"Ipucu-katilim-pekistirme-donut": "Tam ogrenmede ogretim hizmetinin niteligini belirleyen dort ana ogedir."
+		};
+
 		const rapid = document.getElementById("rapidTags");
+		const rapidInfo = document.getElementById("rapidInfo");
 		rapidTerms.forEach((t) => {
-			const s = document.createElement("span");
+			const s = document.createElement("button");
 			s.className = "pill";
 			s.textContent = t;
+			s.type = "button";
+			s.addEventListener("click", () => {
+				rapid.querySelectorAll(".pill").forEach((p) => p.classList.remove("active"));
+				s.classList.add("active");
+				rapidInfo.textContent = rapidDetails[t] || "Bu kavram icin ozet bulunamadi.";
+			});
 			rapid.appendChild(s);
 		});
 	</script>
