@@ -8,7 +8,8 @@ window.SUB = {
   gun: { ad: "Güncel Bilgiler", n: 6, g: "Genel Kültür" },
   eb:  { ad: "Eğitim Bilimleri", n: 80, g: "Öğretmenlik" }
 };
-window.ORDER = ["tr", "mat", "tar", "cog", "vat", "gun", "eb"];
+// KPSS Önlisans: Eğitim Bilimleri oturumu yok, bu yüzden menüde gösterilmez
+window.ORDER = ["tr", "mat", "tar", "cog", "vat", "gun"];
 
 window.NOTES = {
 tr: [
@@ -295,6 +296,7 @@ tar: [
 <li><b>Mondros (30 Ekim 1918):</b> 7. madde → İtilaf devletleri güvenliklerini tehdit eden her yeri işgal edebilecekti.</li>
 <li><b>Zararlı cemiyetler:</b> Mavri Mira, Pontus, Etnik-i Eterya, Taşnak-Hınçak (azınlık); İngiliz Muhipler, Wilson Prensipleri, Kürt Teali (Türk).</li>
 <li><b>Yararlı cemiyetler:</b> Müdafaa-i Hukuk cemiyetleri, Redd-i İlhak, Kilikyalılar.</li>
+<li><b>Havza Genelgesi (28 Mayıs 1919):</b> İşgallere karşı protesto mitingleri düzenlenmesi istendi.</li>
 <li><b>Amasya Genelgesi (22 Haziran 1919):</b> “Milletin istiklalini yine milletin azim ve kararı kurtaracaktır.” Millî egemenliğe ilk vurgu.</li>
 <li><b>Erzurum Kongresi (23 Temmuz–7 Ağustos 1919):</b> Toplanışı bölgesel, kararları ulusal. Manda ve himaye ilk kez reddedildi.</li>
 <li><b>Sivas Kongresi (4–11 Eylül 1919):</b> Cemiyetler “Anadolu ve Rumeli Müdafaa-i Hukuk Cemiyeti” adıyla birleşti; Temsil Heyeti tüm yurdu temsil etti.</li>
@@ -510,6 +512,10 @@ vat: [
 <li><b>Anayasa Mahkemesi:</b> 15 üye (12'sini CB, 3'ünü TBMM seçer); 12 yıl, bir kez. Yüce Divan sıfatıyla yargılama yapar.</li>
 <li><b>Hâkimler ve Savcılar Kurulu (HSK):</b> 13 üye. Başkanı Adalet Bakanı; Bakan Yardımcısı tabii üye. 4 üye CB, 7 üye TBMM seçer. 4 yıl.</li>
 <li><b>Sayıştay:</b> Kamu harcamalarını TBMM adına denetler.</li>
+<li><b>Yargıtay:</b> Adli yargının, <b>Danıştay:</b> idari yargının son inceleme mercii. <b>Uyuşmazlık Mahkemesi:</b> Adli ve idari yargı arasındaki görev ve hüküm uyuşmazlıklarını çözer.</li>
+<li><b>Parti kapatma:</b> Davayı Yargıtay Cumhuriyet Başsavcısı açar, Anayasa Mahkemesi karar verir.</li>
+<li><b>Bireysel başvuru:</b> Temel hakkı kamu gücünce ihlal edilen kişi, olağan yolları tükettikten sonra Anayasa Mahkemesi'ne başvurur.</li>
+<li><b>Yüksek Seçim Kurulu:</b> Seçimlerin genel yönetim ve denetimini yapar; kararları kesindir.</li>
 </ul>`,
   kod: "AYM 15 = 12 + 3. HSK 13 = 2 tabii + 4 CB + 7 TBMM." },
 

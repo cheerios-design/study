@@ -191,7 +191,7 @@ footer a{color:var(--ink)}
 <header class="top">
   <div class="marks" aria-hidden="true"></div>
   <div class="bar">
-    <div class="brand"><b>KPSS Masası</b><span>GY · GK · EB</span></div>
+    <div class="brand"><b>KPSS Masası</b><span>Önlisans · GY-GK</span></div>
     <nav id="nav" aria-label="Bölümler">
       <button data-view="panel">Panel</button>
       <button data-view="konular">Konular</button>
@@ -212,7 +212,11 @@ footer a{color:var(--ink)}
 <script src="bank.js"></script>
 <script>
 (function(){
-const SUB = window.SUB, ORDER = window.ORDER, NOTES = window.NOTES, Q = window.Q, K = window.K;
+const SUB = window.SUB, ORDER = window.ORDER, NOTES = window.NOTES, K = window.K;
+const Q = window.Q.filter(q => ORDER.includes(q.s));
+const GK3 = ["tar", "cog", "vat"]; // önlisansta Genel Kültür'ün 54/60 sorusu
+function inSubj(s, sel){ return sel === "all" || s === sel || (sel === "gk3" && GK3.includes(s)); }
+function subjName(sel){ return SUB[sel] ? SUB[sel].ad : sel === "gk3" ? "Tarih · Coğrafya · Vatandaşlık" : "Karışık"; }
 const L = "ABCDE";
 const DAY = 864e5;
 const IV = [0, 1, 2, 4, 8, 16]; // kutu → gün
@@ -248,7 +252,8 @@ function isDue(c){ const st = cardState(c.id); return !st || st.d <= Date.now();
 function subjChips(active, act, withAll, list){
   list = list || ORDER;
   let h = '<div class="chips" role="group">';
-  if (withAll) h += '<button class="chip" data-act="' + act + '" data-s="all" aria-pressed="' + (active === "all") + '">Tümü</button>';
+  if (withAll) h += '<button class="chip" data-act="' + act + '" data-s="all" aria-pressed="' + (active === "all") + '">Tümü</button>' +
+    '<button class="chip" style="--c:var(--optic)" data-act="' + act + '" data-s="gk3" aria-pressed="' + (active === "gk3") + '"><i class="dot"></i>Tarih · Coğ · Vat</button>';
   list.forEach(s => { h += '<button class="chip" style="--c:' + col(s) + '" data-act="' + act + '" data-s="' + s + '" aria-pressed="' + (active === s) + '"><i class="dot"></i>' + SUB[s].ad + '</button>'; });
   return h + '</div>';
 }
@@ -311,7 +316,7 @@ function renderPanel(){
       <div class="eyebrow">Bugünün planı</div>
       <h2 style="font-size:24px">${due ? due + " kart tekrar bekliyor" : "Kart tekrarların tamam"}</h2>
       <p class="muted" style="margin:0">Önce kartları tekrar et, sonra en zayıf dersinden 10 soru çöz. Aralıklı tekrar, bilgiyi unutmadan hemen önce hatırlatır.</p>
-      <div class="row"><button class="btn optic" data-act="go" data-v="kartlar">Tekrara başla</button><button class="btn ghost" data-act="go" data-v="test">10 soru çöz</button></div>
+      <div class="row"><button class="btn optic" data-act="go" data-v="kartlar">Tekrara başla</button><button class="btn ghost" data-act="focusTest">10 soru: Tarih · Coğ · Vat</button></div>
     </div>
   </section>
   <section class="stats">
@@ -331,7 +336,7 @@ function renderPanel(){
         <div class="eyebrow">GY-GK soru dağılımı · 120 soru</div>
         <div class="dist" style="margin-top:12px">${dist}</div>
         <div class="legend">${legend}</div>
-        <p class="muted" style="font-size:13.5px;margin:10px 0 0">Eğitim Bilimleri ayrı oturumda 80 sorudur. Net = Doğru − Yanlış ÷ 4.</p>
+        <p class="muted" style="font-size:13.5px;margin:10px 0 0">Önlisansta Genel Kültür'ün 60 sorusunun 54'ü Tarih, Coğrafya ve Vatandaşlıktan gelir. Tek başına Tarih 27 soruyla Matematik ve Türkçeye yakın ağırlıktadır. Net = Doğru − Yanlış ÷ 4.</p>
       </div>
       <div>
         <div class="row" style="justify-content:space-between"><div class="eyebrow">Son 14 gün</div><span class="num" style="font-size:13px">${streak} gün seri</span></div>
@@ -384,7 +389,7 @@ function renderKartlar(){
       <div class="row" style="justify-content:center"><button class="btn" data-act="cardsHome">Kartlara dön</button><button class="btn ghost" data-act="go" data-v="test">Soru çöz</button></div></section>`;
     return;
   }
-  const pool = CARDS.filter(c => subj === "all" || c.s === subj);
+  const pool = CARDS.filter(c => inSubj(c.s, subj));
   const boxes = [0,0,0,0,0,0];
   pool.forEach(c => { const st = cardState(c.id); boxes[st ? st.b : 0]++; });
   const due = pool.filter(isDue).length;
@@ -429,7 +434,7 @@ function renderCard(){
   </section>` : `<button class="btn" data-act="flip" style="justify-self:center">Cevabı göster</button>`}`;
 }
 function startCards(mode){
-  let pool = CARDS.filter(c => subj === "all" || c.s === subj);
+  let pool = CARDS.filter(c => inSubj(c.s, subj));
   if (mode === "due") { pool = pool.filter(isDue); pool = shuffle(pool).slice(0, 30); }
   else pool = shuffle(pool);
   CS = { queue: pool, i: 0, shown: false, done: 0, again: 0 };
@@ -448,8 +453,8 @@ function makeItems(qs){ return qs.map(q => ({ q, order: shuffle([0,1,2,3,4]) }))
 function startTest(qs, title){ TS = { mode: "test", items: makeItems(qs), i: 0, picks: [], title }; }
 function renderTest(){
   if (TS && TS.mode === "test") return TS.i >= TS.items.length ? renderTestEnd() : renderQuestion();
-  const pool = QBY[subj] || Q;
-  const topics = subj === "all" ? [] : [...new Set(pool.map(q => q.t))];
+  const pool = Q.filter(q => inSubj(q.s, subj));
+  const topics = SUB[subj] ? [...new Set(pool.map(q => q.t))] : [];
   app.innerHTML = `
   <section style="display:grid;gap:12px">
     <div class="eyebrow">Konu testi</div>
@@ -520,10 +525,10 @@ function reviewList(items, picks){
 
 // ---------- DENEME ----------
 const EXAMS = {
-  gygk: { ad: "GY-GK Mini Deneme", mix: { tr: 7, mat: 7, tar: 7, cog: 5, vat: 3, gun: 1 }, dk: 33, not: "30 soru · 33 dakika · gerçek sınav sırası: Türkçe, Matematik, Tarih, Coğrafya, Vatandaşlık, Güncel" },
-  gk:   { ad: "Genel Kültür Denemesi", mix: { tar: 12, cog: 8, vat: 5, gun: 3 }, dk: 30, not: "28 soru · 30 dakika · Tarih, Coğrafya, Vatandaşlık, Güncel" },
-  gy:   { ad: "Genel Yetenek Denemesi", mix: { tr: 12, mat: 12 }, dk: 28, not: "24 soru · 28 dakika · Türkçe ve Matematik" },
-  eb:   { ad: "Eğitim Bilimleri Mini", mix: { eb: 12 }, dk: 14, not: "12 soru · 14 dakika" }
+  gkFull: { ad: "Genel Kültür Tam Oturum", mix: { tar: 27, cog: 18, vat: 9, gun: 6 }, dk: 65, not: "60 soru · 65 dakika · gerçek önlisans dağılımı: 27 Tarih, 18 Coğrafya, 9 Vatandaşlık, 6 Güncel" },
+  gkMini: { ad: "Genel Kültür Mini", mix: { tar: 13, cog: 9, vat: 5, gun: 3 }, dk: 33, not: "30 soru · 33 dakika · aynı oranın yarısı" },
+  gk3:    { ad: "Tarih · Coğrafya · Vatandaşlık", mix: { tar: 12, cog: 8, vat: 4 }, dk: 26, not: "24 soru · 26 dakika · Güncel olmadan üç ana ders" },
+  gygk:   { ad: "GY-GK Mini Deneme", mix: { tr: 7, mat: 7, tar: 7, cog: 5, vat: 3, gun: 1 }, dk: 33, not: "30 soru · 33 dakika · gerçek sınav sırası: Türkçe, Matematik, Tarih, Coğrafya, Vatandaşlık, Güncel" }
 };
 function startExam(key){
   const ex = EXAMS[key]; let qs = [];
@@ -624,10 +629,14 @@ document.addEventListener("click", e => {
     case "flip": if (!CS.shown) { CS.shown = true; render(); } break;
     case "grade": gradeCard(+d.g); break;
     case "startTest": {
-      let pool = subj === "all" ? Q : QBY[subj];
-      if (testTopic && subj !== "all") pool = pool.filter(q => q.t === testTopic);
+      let pool = Q.filter(q => inSubj(q.s, subj));
+      const topic = SUB[subj] && pool.some(q => q.t === testTopic) ? testTopic : "";
+      if (topic) pool = pool.filter(q => q.t === topic);
       pool = shuffle(pool); if (testCount !== "hepsi") pool = pool.slice(0, +testCount);
-      startTest(pool, subj === "all" ? "Karışık test" : SUB[subj].ad + (testTopic ? " · " + testTopic : "")); render(); break;
+      startTest(pool, subjName(subj) + (topic ? " · " + topic : "")); render(); break;
+    }
+    case "focusTest": {
+      subj = "gk3"; startTest(shuffle(Q.filter(q => GK3.includes(q.s))).slice(0, 10), subjName("gk3")); go("test"); break;
     }
     case "wrongTest": { const ws = DB.wrong.map(id => QID[id]).filter(q => q && (!d.s || q.s === d.s)); startTest(shuffle(ws), "Yanlışlarım"); go("test"); break; }
     case "ans": answerTest(+d.k); break;
